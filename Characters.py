@@ -26,16 +26,17 @@ class Character:
         return self.coor.get_y_coor()
 
     def shift_cell_up(self):
-        self.coor.set_y_coor(self.coor.get_y_coor() - 1)
+        self.coor.set_y_coor(self.coor.get_y_coor() - 50)
+
     
     def shift_cell_down(self):
-        self.coor.set_y_coor(self.coor.get_y_coor() + 1)
+        self.coor.set_y_coor(self.coor.get_y_coor() + 50)
     
     def shift_cell_left(self):
-        self.coor.set_x_coor(self.coor.get_x_coor() - 1)
+        self.coor.set_x_coor(self.coor.get_x_coor() - 50)
     
     def shift_cell_right(self):
-        self.coor.set_x_coor(self.coor.get_x_coor() + 1)
+        self.coor.set_x_coor(self.coor.get_x_coor() + 50)
     
         
 
