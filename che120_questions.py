@@ -233,19 +233,6 @@ print(question_5_100()[0][1])
 print(question_results("5_100"))
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
 
 
 
