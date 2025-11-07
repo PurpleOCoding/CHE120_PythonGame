@@ -4,7 +4,7 @@
 # In[364]:
 
 
-#import random
+import random
 import pandas as pd
 #assignes a the gloabal variubles to 0.0 so they can later be used to hold the random number used in the questions
 random_num_1_100 = 0.0
