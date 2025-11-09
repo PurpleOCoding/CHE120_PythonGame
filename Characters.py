@@ -27,7 +27,6 @@ class Character:
 
     def shift_cell_up(self):
         self.coor.set_y_coor(self.coor.get_y_coor() - 50)
-
     
     def shift_cell_down(self):
         self.coor.set_y_coor(self.coor.get_y_coor() + 50)
@@ -44,11 +43,14 @@ class Character:
 class Player(Character):
     
     max_health = 100
+    current_health = max_health
     x_coordinate = 0
     y_coordinate = 0
     coor = None
     
     def __init__(self,x_coordinate,y_coordinate):
+        self.max_health = max_health
+        self.current_health = current_health
         self.x_coordinate = x_coordinate
         self.y_coordinate = y_coordinate
         self.coor = Coor(x_coordinate, y_coordinate)
@@ -57,12 +59,14 @@ class Player(Character):
 class Enemy(Character):
    
     max_health = 100
+    current_health = max_health
     x_coordinate = 0
     y_coordinate = 0
     coor = None
 
     def __init__(self,max_health,x_coordinate,y_coordinate):
         self.max_health = max_health
+        self.current_health = current_health
         self.x_coordinate = x_coordinate
         self.y_coordinate = y_coordinate
         self.coor = Coor(x_coordinate,y_coordinate)
