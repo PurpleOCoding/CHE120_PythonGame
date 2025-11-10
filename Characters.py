@@ -44,6 +44,7 @@ class Player(Character):
     
     max_health = 100
     current_health = max_health
+    level = 1
     x_coordinate = 0
     y_coordinate = 0
     coor = None
@@ -51,6 +52,7 @@ class Player(Character):
     def __init__(self,x_coordinate,y_coordinate):
         self.max_health = max_health
         self.current_health = current_health
+        self.level = level
         self.x_coordinate = x_coordinate
         self.y_coordinate = y_coordinate
         self.coor = Coor(x_coordinate, y_coordinate)
@@ -60,6 +62,7 @@ class Enemy(Character):
    
     max_health = 100
     current_health = max_health
+    level = 3
     x_coordinate = 0
     y_coordinate = 0
     coor = None
@@ -67,6 +70,7 @@ class Enemy(Character):
     def __init__(self,max_health,x_coordinate,y_coordinate):
         self.max_health = max_health
         self.current_health = current_health
+        self.level = level
         self.x_coordinate = x_coordinate
         self.y_coordinate = y_coordinate
         self.coor = Coor(x_coordinate,y_coordinate)
@@ -78,6 +82,7 @@ class Enemy(Character):
 # player1.shift_cell_down()
 # player1.shift_cell_left()
 # print(player1.get_x_coordinate(),player1.get_y_coordinate())
+
 
 
 
