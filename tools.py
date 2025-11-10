@@ -12,7 +12,7 @@ import random
 #Tool is the tool the attacking character uses, and character is the recieving target
 def Health_Left(Tool, Character)
     #Random integer within specifiedrange
-    dmg_roll = random.randrange(low_range, high_range)
+    dmg_roll = random.randrange(Tool.low_range, Tool.high_range)
     #The updated health of the recieving character after the attack
     Character.current_health -= dmg_roll
 
@@ -40,3 +40,4 @@ class Beak(Tool):
     def __init__(self, low_range, high_range):
         self.low_range = low_range
         self.high_range = high_range
+
