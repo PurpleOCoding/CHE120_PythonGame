@@ -7,6 +7,7 @@ Created on Mon Nov  6 13:30:30 2025
 
 from Characters import Characters
 import random
+import math
 
 #The health the target has reemaining after a successful attack
 #Tool is the tool the attacking character uses, and character is the recieving target
@@ -24,20 +25,21 @@ class Tool:
         self.low_range = low_range
         self.high_range = high_range
 
-class Textbook(Tool):
+class Textbook(Tool, Character):
     #Constraints of the damage range
-    low_range = 12
-    high_range = 18
+    low_range = 12 + math.floor(3*math.log(Character.level))
+    high_range = 18 + math.floor(4*math.log(Character.level))
 
     def __init__(self, low_range, high_range):
         self.low_range = low_range
         self.high_range = high_range
 
-class Beak(Tool):
-    low_range = 7
-    high_range = 10
+class Beak(Tool, Character):
+    low_range = 4 + math.floor(math.log(Character.level))
+    high_range = 7 + math.floor(math.log(Character.level))
 
     def __init__(self, low_range, high_range):
         self.low_range = low_range
         self.high_range = high_range
+
 
