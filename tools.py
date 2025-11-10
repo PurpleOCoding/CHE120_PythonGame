@@ -27,19 +27,25 @@ class Tool:
 
 class Textbook(Tool, Character):
     #Constraints of the damage range
-    low_range = 12 + math.floor(3*math.log(Character.level))
-    high_range = 18 + math.floor(4*math.log(Character.level))
+    #Damage is scaled relative to the character's level,
+    #with damage incrementing less with each level.
+    low_range = 16 + math.ceil(4 * (Character.level ** 0.8))
+    high_range = 20 + math.ceil(4 * (Character.level ** 0.8))
 
     def __init__(self, low_range, high_range):
         self.low_range = low_range
         self.high_range = high_range
 
 class Beak(Tool, Character):
-    low_range = 4 + math.floor(math.log(Character.level))
-    high_range = 7 + math.floor(math.log(Character.level))
+    #Constraints of the damage range
+    #Damage is scaled relative to the character's level,
+    #with damage incrementng less with each level.
+    low_range = 8 + math.ceil(2 * (Character.level ** 0.8))
+    high_range = 10 + math.ceil(2 * (Character.level ** 0.8))
 
     def __init__(self, low_range, high_range):
         self.low_range = low_range
         self.high_range = high_range
+
 
 
