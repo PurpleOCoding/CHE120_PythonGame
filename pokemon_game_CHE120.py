@@ -5,13 +5,23 @@ Created on Thu Nov  6 10:49:08 2025
 @author: orech
 """
 
+# images from ai generator
+# https://perchance.org/ai-pixel-art-generator
+# Old classroom pokemon style
+# Computer lab pokemon style
+# Old university grounds birds eye view
+# Old university
+
 # Main game file, runs drawing loop and updates player actions and screen
 
 import pygame
 from pygame.locals import*
+from BlockEmpty import BlockEmpty
+from BlockWall import BlockWall
+from Coor import Coor
+from GameGrid import GameGrid
+import BattleLoop
 
-import Coor
-import Characters
 
 pygame.init()
 
@@ -23,24 +33,51 @@ pygame.display.set_caption("Pokemon Professor Wars")
 typing = False
 start = False
 name = ""
-nameRect = pygame.Rect(300, 500, 200, 50)
+nameRect = pygame.Rect(250, 500, 300, 50)
+
+# initializing map grid
+map_array_characters = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"]]
+gameGrid = GameGrid(map_array_characters)
+
 
 # initialize player
-player = Characters.Player(400,400)
+player = BlockEmpty(Coor(400,400), "w")
+gameGrid.setBlockScaling(player)
 up = False
 down = False
 right = False
 left = False
 battle = False
 
+
+
 # handles keyboard input
 def keyboardInput (event, up, down, right, left, battle):
     if event.key == pygame.K_w: # K_x where x is any lower case letter or special key e.g. F7, 3 
-        print("w")
+        #print("w")
         up = True
     elif up:
         up = False
-        print("no w")
+        #print("no w")
     if event.key == pygame.K_a: # K_x where x is any lower case letter or special key e.g. F7, 3 
         #print("a")
         left = True
@@ -61,14 +98,28 @@ def keyboardInput (event, up, down, right, left, battle):
     return up,down,right,left,battle
 
 def movePlayer (up, down, right, left):
-    if up:
-        player.shift_cell_up()
-    if down:
-        player.shift_cell_down()
-    if right:
-        player.shift_cell_right()
-    if left:
-        player.shift_cell_left()
+    currentX = player.getCoordinate().get_x_coor()
+    currentY = player.getCoordinate().get_y_coor()
+    if up and gameGrid.getBlockScaling(Coor(currentX, currentY-40)).stepOnApproval():
+        currentCoor = player.getCoordinate()
+        gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
+        gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
+        player.setCoordinate(Coor(currentX, currentY-40))
+    if down and gameGrid.getBlockScaling(Coor(currentX, currentY+40)).stepOnApproval():
+        currentCoor = player.getCoordinate()
+        gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
+        gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
+        player.setCoordinate(Coor(currentX, currentY+40))
+    if right and gameGrid.getBlockScaling(Coor(currentX+40, currentY)).stepOnApproval():
+        currentCoor = player.getCoordinate()
+        gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
+        gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
+        player.setCoordinate(Coor(currentX+40, currentY))
+    if left and gameGrid.getBlockScaling(Coor(currentX-40, currentY)).stepOnApproval():
+        currentCoor = player.getCoordinate()
+        gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
+        gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
+        player.setCoordinate(Coor(currentX-40, currentY))
     return 
 
 def drawExploreMap ():
@@ -83,14 +134,15 @@ def drawExploreMap ():
     return
 
 def drawBattleMap (room):
-    if (room == "classroom"):
-        background = pygame.image.load("C:\\Users\\orech\\Documents\\CHE120\\Game Images\\Old_Classroom_1.jpg").convert()
-        background = pygame.transform.scale(background, (800, 800))
-        screen.blit(background, (0, 0))
-    elif room == "lab":
-        background = pygame.image.load("C:\\Users\\orech\\Documents\\CHE120\\Game Images\\Computer_Lab_Classroom_1.jpg").convert()
-        background = pygame.transform.scale(background, (800, 800))
-        screen.blit(background, (0, 0))
+    #if (room == "classroom"):
+     #   background = pygame.image.load("C:\\Users\\orech\\Documents\\CHE120\\Game Images\\Old_Classroom_1.jpg").convert()
+      #  background = pygame.transform.scale(background, (800, 800))
+       # screen.blit(background, (0, 0))
+    #elif room == "lab":
+     #   background = pygame.image.load("C:\\Users\\orech\\Documents\\CHE120\\Game Images\\Computer_Lab_Classroom_1.jpg").convert()
+      #  background = pygame.transform.scale(background, (800, 800))
+       # screen.blit(background, (0, 0))
+    BattleLoop.battles(screen)
     return
 
 # Main game loop
@@ -111,21 +163,21 @@ while running:
         textRect = title.get_rect(center = (400, 400))
 
         # enter name and start when enter pressed
-        base_font = pygame.font.Font("freesansbold.ttf", 30)
+        base_font = pygame.font.Font("freesansbold.ttf", 18)
         if typing:
             pygame.draw.rect(screen, (0, 100, 20), nameRect, 0)
             text_surface = base_font.render(("Name: " + name), True, (255, 255, 255))
-            screen.blit(text_surface, (300, 510))
+            screen.blit(text_surface, (250, 510))
         else:
             pygame.draw.rect(screen, (100, 0, 20), nameRect, 0)
             text_surface = base_font.render(("Name: " + name), True, (255, 255, 255))
-            screen.blit(text_surface, (300, 510))
+            screen.blit(text_surface, (250, 510))
 
         screen.blit(title, textRect)
     elif not battle:
         drawExploreMap()
         # draw rectangle at player's coor
-        pygame.draw.rect(screen, (255, 255, 0), [player.get_x_coordinate(), player.get_y_coordinate(), 50, 50], 0)
+        pygame.draw.rect(screen, (255, 255, 0), [player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50], 0)
     else:
         drawBattleMap("lab")
         # draw battle player image
@@ -145,7 +197,7 @@ while running:
                     start = True
                 elif event.key == pygame.K_BACKSPACE:
                     name = name[0:-1]
-                else:
+                elif len(name) < 12:
                     name += event.unicode
             else:
                 up,down,right,left,battle = keyboardInput(event, up, down, right, left, battle)
