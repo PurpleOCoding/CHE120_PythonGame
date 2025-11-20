@@ -10,10 +10,12 @@ import random
 #from BattleLoop import Level
 
 def Damage_Target(Answer, level):
+    print("aaaaaaa")
     if Answer:
         dmg_roll = random.randrange(Student.low_range, Student.high_range)
         #The updated health of the recieving character after the attack
         Enemy.iq -= dmg_roll
+        print(Enemy.iq)
     else:
         Enemy.low_range = 3 + (5 * level)
         Enemy.high_range = 7 + (5 * level)
@@ -24,18 +26,26 @@ def Damage_Target(Answer, level):
         if random.randrange(0,3) != 0:
             #The updated health of the recieving character after the attack
             Student.iq -= dmg_roll
+            print(Student.iq)
 
     #if student has won
     if Enemy.iq <= 60:
+        print("E dead")
         Student.iq = 100
         return(False, True)
     #if enemy has won
     elif Student.iq <= 60:
+        print("s dead")
+        Student.iq = 100
         return(False, False)
     #otherwise continue battle loop
     else:
+        print("NA")
         return(True, None)
-
+def student_health():
+    return Student.iq
+def prof_health():
+    return Enemy.iq
 class Tool:
     iq = 60
     low_range = 0

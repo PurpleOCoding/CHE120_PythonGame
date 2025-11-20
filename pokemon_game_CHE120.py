@@ -143,7 +143,7 @@ def drawBattleMap (room):
       #  background = pygame.transform.scale(background, (800, 800))
        # screen.blit(background, (0, 0))
     BattleLoop.battles(screen)
-    return
+    return False
 
 # Main game loop
 running = True
@@ -179,7 +179,7 @@ while running:
         # draw rectangle at player's coor
         pygame.draw.rect(screen, (255, 255, 0), [player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50], 0)
     else:
-        drawBattleMap("lab")
+        battle = drawBattleMap("lab")
         # draw battle player image
         
     for event in pygame.event.get():
