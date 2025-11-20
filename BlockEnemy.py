@@ -7,4 +7,4 @@ class BlockEnemy(BaseBlock):
         super().__init__(coor,blockId)
 
     def stepOnApproval(self):
-        BattleLoop.method()
+        BattleLoop.battles()
