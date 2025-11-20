@@ -3,6 +3,8 @@
 class Battle():
   import pygame
   from pygame.locals import*
+  import che120_questions.py
+  import Damage.py
 
   def __innit__():
     self.level = 1
@@ -21,7 +23,7 @@ class Battle():
     
     while(game):
       did_they_win = questions.question_results(str(level),"_100", screen)
-      game_answer = Damage(Damage_Target(did_they_win, level))
+      game_answer = Damage_Target(did_they_win, level)
       if(game_answer[0] == False):
         if(game_answer[1]):
           level += 1
