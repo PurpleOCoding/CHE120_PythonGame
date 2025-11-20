@@ -7,7 +7,7 @@ class Battle:
   def __innit__():
     self.level = 1
 
-  def battles (level):
+  def battles ():
     game = True
     pygame.init()
     screen = pygame.display.set_mode((800, 800))
