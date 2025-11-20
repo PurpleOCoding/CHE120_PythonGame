@@ -184,7 +184,6 @@ class questions():
                         screen.blit(text_surface, (300, 510))
                         if event.key == pygame.K_RETURN:
                             typing = False
-                            start = True
                         elif event.key == pygame.K_BACKSPACE:
                             answer = answer[0:-1]
                         elif event.key == pygame.K_0:
