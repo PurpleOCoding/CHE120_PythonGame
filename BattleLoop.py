@@ -22,8 +22,8 @@ class Battle():
     screen.blit(image, (50, 50))
     
     while(game):
-      did_they_win = questions.question_results(str(level),"_100", screen)
-      game_answer = Damage_Target(did_they_win, level)
+      did_they_win = che120_questions.question_results(str(level),"_100", screen)
+      game_answer = Damage.Damage_Target(did_they_win, level)
       if(game_answer[0] == False):
         if(game_answer[1]):
           level += 1
