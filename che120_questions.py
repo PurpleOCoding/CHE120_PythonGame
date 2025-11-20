@@ -159,9 +159,10 @@ class questions():
         return questions_1_100_answer
     
     #This function thakes in question which is the question you want to ask the user the function prints the question trys to get a users inpu and breaks it the give a working input otherwise it prints "Pleas input number's only" and loops back it returns the answer from the user
-    def print_and_input_questions(question):
-        #prints the question to the user
-        print(question)
+    def print_and_input_questions(question, screen):
+        pygame.draw.rect(screen, (0, 100, 20), nameRect, 0)
+            text_surface = base_font.render((question), True, (255, 255, 255))
+            screen.blit(text_surface, (300, 510))
         #starts a while true loop
         while True:
             #trys to get the users input
