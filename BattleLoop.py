@@ -27,6 +27,7 @@ def battles (screen):
         level += 1
         screen.fill((255,255,255))
         game = False
-      
+      else:
+        game = False
     
       
