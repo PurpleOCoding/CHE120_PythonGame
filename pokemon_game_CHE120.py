@@ -21,6 +21,7 @@ from BlockWall import BlockWall
 from Coor import Coor
 from GameGrid import GameGrid
 import BattleLoop
+import os
 
 
 pygame.init()
@@ -124,7 +125,7 @@ def movePlayer (up, down, right, left):
 
 def drawExploreMap ():
     # background
-    background = pygame.image.load("C:\\Users\\nmay0\\Downloads\\Old_School_Title_Page.jpg").convert()
+    background = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Explore_Background.jpg").convert()
     background = pygame.transform.scale(background, (800, 800))
     screen.blit(background, (0, 0))
     # for char in characters:
@@ -143,7 +144,13 @@ def drawBattleMap (room):
       #  background = pygame.transform.scale(background, (800, 800))
        # screen.blit(background, (0, 0))
     BattleLoop.battles(screen)
-    return False
+    return
+
+def reset():
+    typing = False
+    start = False
+    name = ""
+    nameRect = pygame.Rect(250, 500, 300, 50)
 
 # Main game loop
 running = True
@@ -153,7 +160,7 @@ while running:
         # main menu screen
 
         # background image
-        title_page = pygame.image.load("C:\\Users\\nmay0\\Downloads\\Old_School_Title_Page.jpg").convert()
+        title_page = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Old_School_Title_Page.jpg").convert()
         title_page = pygame.transform.scale(title_page, (800, 800))
         screen.blit(title_page, (0, 0))
 
@@ -176,10 +183,12 @@ while running:
         screen.blit(title, textRect)
     elif not battle:
         drawExploreMap()
-        # draw rectangle at player's coor
+        # draw rectangle at player's coor and their name above them
         pygame.draw.rect(screen, (255, 255, 0), [player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50], 0)
+        name_display = base_font.render(name, True, (0, 0, 0))
+        screen.blit(name_display, (player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor()-30))
     else:
-        battle = drawBattleMap("lab")
+        drawBattleMap("lab")
         # draw battle player image
         
     for event in pygame.event.get():

@@ -6,6 +6,7 @@
 import random
 import pygame
 import pandas as pd
+import os
 
 #assignes a the gloabal variubles to 0.0 so they can later be used to hold the random number used in the questions
 random_num_1_100 = 0.0
@@ -167,24 +168,26 @@ def question_1_100():
 def print_and_input_questions(question, screen):
     base_font = pygame.font.SysFont('arial', 15)
     answer = ""
-    answerRect = pygame.Rect(100, 100, 100, 100)
+    answerRect = pygame.Rect(0, 0, 800, 100)
     pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
     text = question.split("\n")
     
     done = False
     typing = True
     while not done:
-        screen.fill((255,255,255))
-        pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
+        background = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Old_Classroom_1.jpg").convert()
+        background = pygame.transform.scale(background, (800, 800))
+        screen.blit(background, (0, 0))
+        pygame.draw.rect(screen, (255, 255, 255), answerRect, 0)
         for event in pygame.event.get():
             pygame.draw.rect(screen, (0, 50, 20), answerRect, 0)
             #text_surface = base_font.render((question+" Input answer here (with no units): "+answer), True, (255, 0, 0))
             n = 0
             for i in range(len(text)):
-                text_surface = base_font.render(text[i], True, (0, 0, 255))
+                text_surface = base_font.render(text[i], True, (0, 0, 0))
                 screen.blit(text_surface, (0, 20*i))
                 n+=1
-            text_surface = base_font.render("Input answer here (with no units): "+answer, True, (0, 0, 255))
+            text_surface = base_font.render("Input answer here (with no units): "+answer, True, (0, 255, 0))
             screen.blit(text_surface, (0, 20*(n)))
             # mouse input
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -204,32 +207,34 @@ def print_and_input_questions(question, screen):
                             done = True
                     elif event.key == pygame.K_BACKSPACE:
                         answer = answer[0:-1]
-                    elif event.key == pygame.K_0:
+                    elif event.key == pygame.K_0 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_1:
+                    elif event.key == pygame.K_1 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_2:
+                    elif event.key == pygame.K_2 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_3:
+                    elif event.key == pygame.K_3 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_4:
+                    elif event.key == pygame.K_4 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_5:
+                    elif event.key == pygame.K_5 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_6:
+                    elif event.key == pygame.K_6 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_7:
+                    elif event.key == pygame.K_7 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_8:
+                    elif event.key == pygame.K_8 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_9:
+                    elif event.key == pygame.K_9 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_PERIOD:
+                    elif event.key == pygame.K_PERIOD and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
-                    elif event.key == pygame.K_KP_MINUS:
+                    elif event.key == pygame.K_KP_MINUS and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += event.unicode
                     # updates a screen display
             pygame.display.update()
+            if event.type == pygame.QUIT:
+                pygame.quit()
             
         
 
