@@ -124,7 +124,7 @@ def movePlayer (up, down, right, left):
 
 def drawExploreMap ():
     # background
-    background = pygame.image.load("C:\\Users\\orech\\Documents\\CHE120\\Game Images\\Explore_Background.jpg").convert()
+    background = pygame.image.load("C:\\Users\\nmay0\\Downloads\\Old_School_Title_Page.jpg").convert()
     background = pygame.transform.scale(background, (800, 800))
     screen.blit(background, (0, 0))
     # for char in characters:
@@ -153,7 +153,7 @@ while running:
         # main menu screen
 
         # background image
-        title_page = pygame.image.load("C:\\Users\\orech\\Documents\\CHE120\\Game Images\\Modern_School_Title_Page.jpg").convert()
+        title_page = pygame.image.load("C:\\Users\\nmay0\\Downloads\\Old_School_Title_Page.jpg").convert()
         title_page = pygame.transform.scale(title_page, (800, 800))
         screen.blit(title_page, (0, 0))
 

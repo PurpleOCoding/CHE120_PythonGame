@@ -4,8 +4,9 @@
 # In[364]:
 
 import random
-import pandas as pd
 import pygame
+import pandas as pd
+
 #assignes a the gloabal variubles to 0.0 so they can later be used to hold the random number used in the questions
 random_num_1_100 = 0.0
 random_num_2_100 = 0.0
@@ -29,6 +30,7 @@ def random_generation(smalles_num, biggest_num):
 
 #this function sees if the player's answer is correct by taking the players answer and the question's answer as floats
 def is_correct(player_answer, question_answer):
+    print(question_answer,"aa")
     #sees if the question's answer is negative
     if(question_answer<0):
         #here we flip the greater than and less than signs and allow a 5% error on both sides of the answer
@@ -90,13 +92,14 @@ def question_num_1_100():
     global random_num_1_100
     #creates a random number with in the spicifed range of 5-1040 with zero dicmial places
     random_num_1_100 = random_generation(5, 1040)
+    print(random_num_1_100,"rand")
     #returns the randomly generated number as a str
     return str(random_num_1_100)
 
 #this function assignes the question from questions_and_answers list to a avariuble calucautes the soulotion to the question than assinges the the question and answer to a new list than returns that list
 def question_5_100():
     # calls the list questions_and_answers and gets the question 5 for 100
-    questions_5_100 = questions_and_answers[0][0]
+    questions_5_100 = num_rand_answer(0,0)
     #solves the question with the the randomly generated number
     answer = (((14729/900)-(random_num_5_100/1000))*0.5)-(1/200)
     #assinges the question and the answer to the new list to be returned
@@ -109,7 +112,7 @@ def question_5_100():
 #this function assignes the question from questions_and_answers list to a avariuble calucautes the soulotion to the question than assinges the the question and answer to a new list than returns that list
 def question_4_100():
     # calls the list questions_and_answers and gets the question 4 for 100
-    questions_4_100 = questions_and_answers[1][0]
+    questions_4_100 = num_rand_answer(1,0)
     #solves the question with the the randomly generated number
     answer = random_num_4_100*(9.87*10**(-9))
     #assinges the question and the answer to the new list to be returned
@@ -122,7 +125,7 @@ def question_4_100():
 #this function assignes the question from questions_and_answers list to a avariuble calucautes the soulotion to the question than assinges the the question and answer to a new list than returns that list
 def question_3_100():
     # calls the list questions_and_answers and gets the question 3 for 100
-    questions_3_100 = questions_and_answers[2][0]
+    questions_3_100 = num_rand_answer(2,0)
     #solves the question with the the randomly generated number
     answer = 9.81*(152.5+1026*((random_num_3_100-30.5)/100))
     #assinges the question and the answer to the new list to be returned
@@ -135,7 +138,7 @@ def question_3_100():
 #this function assignes the question from questions_and_answers list to a avariuble calucautes the soulotion to the question than assinges the the question and answer to a new list than returns that list
 def question_2_100():
     # calls the list questions_and_answers and gets the question 2 for 100
-    questions_2_100 = questions_and_answers[3][0]
+    questions_2_100 = num_rand_answer(3,0)
     #solves the question with the the randomly generated number
     answer = (2.34+((4.56-random_num_2_100)/(34.56-random_num_2_100))*(18.43-2.34))
     #assinges the question and the answer to the new list to be returned
@@ -148,9 +151,11 @@ def question_2_100():
 #this function assignes the question from questions_and_answers list to a avariuble calucautes the soulotion to the question than assinges the the question and answer to a new list than returns that list
 def question_1_100():
     # calls the list questions_and_answers and gets the question 1 for 100
-    questions_1_100 = questions_and_answers[4][0]
+    questions_1_100 = num_rand_answer(4,0)
     #solves the question with the the randomly generated number
     answer = 1.461135*(random_num_1_100*1000)
+    print(random_num_1_100)
+    print(answer)
     #assinges the question and the answer to the new list to be returned
     questions_1_100_answer = [
         [questions_1_100,answer]
@@ -164,15 +169,23 @@ def print_and_input_questions(question, screen):
     answer = ""
     answerRect = pygame.Rect(100, 100, 100, 100)
     pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
-    text_surface = base_font.render((question+" Input answer here (with no units): "+answer), True, (255, 255, 255))
-    screen.blit(text_surface, (300, 510))
+    text = question.split("\n")
+    
     done = False
     typing = True
     while not done:
+        screen.fill((255,255,255))
         pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
         for event in pygame.event.get():
             pygame.draw.rect(screen, (0, 50, 20), answerRect, 0)
-            screen.blit(text_surface, (300, 510))
+            #text_surface = base_font.render((question+" Input answer here (with no units): "+answer), True, (255, 0, 0))
+            n = 0
+            for i in range(len(text)):
+                text_surface = base_font.render(text[i], True, (0, 0, 255))
+                screen.blit(text_surface, (0, 20*i))
+                n+=1
+            text_surface = base_font.render("Input answer here (with no units): "+answer, True, (0, 0, 255))
+            screen.blit(text_surface, (0, 20*(n)))
             # mouse input
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if answerRect.collidepoint(event.pos):
@@ -183,8 +196,8 @@ def print_and_input_questions(question, screen):
             # keyboard input
             if event.type == pygame.KEYDOWN: # KEYDOWN is for pressed KEYUP is for releasing a key (can be combined for holding of keys using booleans)
                 if typing:
-                    pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
-                    text_surface = base_font.render((question+" Input answer here (with no units): "+answer), True, (255, 255, 255))
+                    #pygame.draw.rect(screen, (0, 0, 0), answerRect, 0)
+                    
                     if event.key == pygame.K_RETURN:
                         if (len(answer) > 0):
                             typing = False
@@ -211,9 +224,9 @@ def print_and_input_questions(question, screen):
                         answer += event.unicode
                     elif event.key == pygame.K_9:
                         answer += event.unicode
-                    elif event.key == pygame.K_DOT:
+                    elif event.key == pygame.K_PERIOD:
                         answer += event.unicode
-                    elif event.key == pygame.K_MINUS:
+                    elif event.key == pygame.K_KP_MINUS:
                         answer += event.unicode
                     # updates a screen display
             pygame.display.update()
@@ -224,7 +237,7 @@ def print_and_input_questions(question, screen):
     return answer
 
 #this function in takes the question number calls all the functions and list to get the question creat the random number and creats the soulotion gets the usres answer and checks if the user is correct retuning a boolean
-def question_results(level, question_num, screen): 
+def question_results(question_num, screen): 
     #sees if the question that is wanted is "5_100"
     if(question_num == "5_100"):
         #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
@@ -251,20 +264,22 @@ def question_results(level, question_num, screen):
         return answer
     #sees if the question that is wanted is "1_100"
     if(question_num == "1_100"):
+        q1 = question_1_100()
         #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-        answer = is_correct(float(print_and_input_questions(question_1_100()[0][0],screen)),float(question_1_100()[0][1]))
+        answer = is_correct(float(print_and_input_questions(q1[0][0],screen)),float(q1[0][1]))
         #returns true or false based on whether the user is correct or not
         return answer
 
-
-#this is the list of questions that also has a changing number within it
-questions_and_answers = [
-["In this process, there is a feed m2(flow rate) going into a unit process and a second feed m1(flow rate) mixing into the first feed. In this first feed, there are two exit streams, one of which is m4(flow rate), the other m5(flow rate). m5(flow rate) goes to a new point where the stream breaks into two streams, one being m6(flow rate), the other m7(flow rate). m7(flow rate) goes to a new unit process, which also has a second input, which is m8(flow rate), all leading to an output m9(flow rate). There is no accumulation. m1(flow rate) = 42.5 kg/h, m2(flow rate) = 4.56 g/s, m3(flow rate) = ?, m4(flow rate) = "+question_num_5_100()+" mg/s, m5(flow rate) = ?, m6(flow rate) = ?, m7(flow rate) = ?, m8(flow rate) = 0.3 g/min, m9(flow rate) = this flow rate is 50% of m5 flow rate, What is the flow rate of m7(flow rate) in g/s"],
-["Convert "+question_num_4_100()+" (N*lbmf)/(nmol*GPa) to (mJ*kg)/(klbmol*atm)."],
-["You have a can of 7Up, height is "+question_num_3_100()+" cm, and the height of the foam solution is 30.5 cm, the height of the soda in the can is the rest of the can, the soda's density is 1.026 (g)/(ml), the foam density is 0.5 (g)/(ml). What is the pressure in the can in Pa?"],
-["Using two-point interpolation, find x for the y = 4.56 (2.34,"+str(question_num_2_100())+") to (18.43,34.56)"],
-["You have "+str(question_num_1_100())+" kg of NaOH, how much NaCl do you have, assuming NaOH is limiting in g? Using the equation NaOH + HCl --> NaCl + H2O."]
-]
+def num_rand_answer(one,two):
+    #this is the list of questions that also has a changing number within it
+    questions_and_answers = [
+    ["In this process, there is a feed m2(flow rate) \ngoing into a unit process and a second feed m1(flow rate) \nmixing into the first feed. In this first feed, there are \ntwo exit streams, one of which is m4(flow rate), \nthe other m5(flow rate). m5(flow rate) goes to a new \npoint where the stream breaks into two streams, \none being m6(flow rate), the other m7(flow rate). m7(flow rate) goes to a \nnew unit process, which also has a second input, \nwhich is m8(flow rate), all leading to an output m9(flow rate). \nThere is no accumulation. m1(flow rate) = 42.5 kg/h, \nm2(flow rate) = 4.56 g/s, m3(flow rate) = ?, m4(flow rate) = "+question_num_5_100()+" mg/s, \nm5(flow rate) = ?, m6(flow rate) = ?, m7(flow rate) = ?, m8(flow rate) = 0.3 g/min, \nm9(flow rate) = this flow rate is 50% of m5 flow rate, \nWhat is the flow rate of m7(flow rate) in g/s"],
+    ["Convert "+question_num_4_100()+" (N*lbmf)/(nmol*GPa) \nto (mJ*kg)/(klbmol*atm)."],
+    ["You have a can of 7Up, height is "+question_num_3_100()+" cm, \nand the height of the foam solution is 30.5 cm, the height of the soda \nin the can is the rest of the can, the soda's density \nis 1.026 (g)/(ml), the foam density is 0.5 (g)/(ml). \nWhat is the pressure in the can in Pa?"],
+    ["Using two-point interpolation, find x for the y = 4.56 \n(2.34,"+str(question_num_2_100())+") to (18.43,34.56)"],
+    ["You have "+str(question_num_1_100())+" kg of NaOH,\n how much NaCl do you have, assuming NaOH is limiting in g? \nUsing the equation NaOH + HCl --> NaCl + H2O."]
+    ]
+    return questions_and_answers[one][two]
 
 
 #print(()[0][1])
