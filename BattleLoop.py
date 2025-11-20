@@ -7,8 +7,6 @@ class Battle:
   def __innit__():
     self.level = 1
     
-  def clear_screen():
-    
     
   def battles ():
     game = True
@@ -27,7 +25,7 @@ class Battle:
       if(game_answer[0] == False):
         if(game_answer[1]):
           level += 1
-          clear_screen()
+          screen.fill((255,255,255))
           game = False
         if(game_answer[1] == False):
           #print to screen they loss and the credits
