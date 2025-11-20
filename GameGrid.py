@@ -30,12 +30,21 @@ class GameGrid:
     def setBlock(self,block):
         coor = block.getCoordinate()
         self.blocks[coor.get_y_coor()][coor.get_x_coor()] = block
-
+        
+    def getBlockScaling(self,coor):
+        return self.blocks[coor.get_x_coor()//40][coor.get_y_coor()//40]
+    
+    def setBlockScaling(self,block):
+        coor = block.getCoordinate()
+        self.blocks[coor.get_y_coor()//40][coor.get_x_coor()//40] = block
+    
 
 
 
     def __init__(self,board):
+        
 
+        
         self.numRows = len(board)
         self.numCols = len(board[0])
 
