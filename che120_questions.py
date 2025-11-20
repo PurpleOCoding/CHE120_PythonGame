@@ -160,54 +160,96 @@ class questions():
     
     #This function thakes in question which is the question you want to ask the user the function prints the question trys to get a users inpu and breaks it the give a working input otherwise it prints "Pleas input number's only" and loops back it returns the answer from the user
     def print_and_input_questions(question, screen):
-        pygame.draw.rect(screen, (0, 100, 20), nameRect, 0)
-            text_surface = base_font.render((question), True, (255, 255, 255))
+        pygame.font.SysFont('arial', 15)
+        answer = ""
+        answerRect = pygame.rect([100, 100, 100, 100])
+        pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
+            text_surface = base_font.render((question," Input answer here (with no units): ",answer), True, (255, 255, 255))
             screen.blit(text_surface, (300, 510))
-        #starts a while true loop
-        while True:
-            #trys to get the users input
-            try:
-                #asks the user for a float input
-                answer = float(input("Input answer here (with no units): "))
-                #breaks out of the loop
-                break
-            #if the answer given by the user is not a float it gose here
-            except ValueError:
-                #prints to the user "Please input number's only" than loops back to try again
-                print("Please input number's only")
+        typing = True
+        while typing:
+            for event in pygame.event.get():
+                # mouse input
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if answerRect.collidepoint(event.pos):
+                        typing = True
+                        pygame.draw.rect(screen, (0, 50, 20), answerRect, 0)
+                    else:
+                        typing = False
+                # keyboard input
+                if event.type == pygame.KEYDOWN: # KEYDOWN is for pressed KEYUP is for releasing a key (can be combined for holding of keys using booleans)
+                    if typing:
+                        pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
+                        text_surface = base_font.render((question," Input answer here (with no units): ",answer), True, (255, 255, 255))
+                        screen.blit(text_surface, (300, 510))
+                        if event.key == pygame.K_RETURN:
+                            typing = False
+                            start = True
+                        elif event.key == pygame.K_BACKSPACE:
+                            answer = answer[0:-1]
+                        elif event.key == pygame.K_0:
+                            answer += event.unicode
+                        elif event.key == pygame.K_1:
+                            answer += event.unicode
+                        elif event.key == pygame.K_2:
+                            answer += event.unicode
+                        elif event.key == pygame.K_3:
+                            answer += event.unicode
+                        elif event.key == pygame.K_4:
+                            answer += event.unicode
+                        elif event.key == pygame.K_5:
+                            answer += event.unicode
+                        elif event.key == pygame.K_6:
+                            answer += event.unicode
+                        elif event.key == pygame.K_7:
+                            answer += event.unicode
+                        elif event.key == pygame.K_8:
+                            answer += event.unicode
+                        elif event.key == pygame.K_9:
+                            answer += event.unicode
+                        elif event.key == pygame.K_DOT:
+                            answer += event.unicode
+                        elif event.key == pygame.K_MINUS:
+                            answer += event.unicode
+                        # updates a screen display
+                        pygame.display.update()
+                
+            
+            if event.type == pygame.QUIT:
+                running = False
         #returns the answer the user gave
         return answer
     
     #this function in takes the question number calls all the functions and list to get the question creat the random number and creats the soulotion gets the usres answer and checks if the user is correct retuning a boolean
-    def question_results(question_num): 
+    def question_results(question_num, screen): 
         #sees if the question that is wanted is "5_100"
         if(question_num == "5_100"):
             #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-            answer = is_correct(float(print_and_input_questions(question_5_100()[0][0])),float(question_5_100()[0][1]))
+            answer = is_correct(float(print_and_input_questions(question_5_100()[0][0]),screen),float(question_5_100()[0][1]))
             #returns true or false based on whether the user is correct or not
             return answer
         #sees if the question that is wanted is "4_100"
         if(question_num == "4_100"):
             #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-            answer = is_correct(float(print_and_input_questions(question_4_100()[0][0])),float(question_4_100()[0][1]))
+            answer = is_correct(float(print_and_input_questions(question_4_100()[0][0]),screen),float(question_4_100()[0][1]))
             #returns true or false based on whether the user is correct or not
             return answer
         #sees if the question that is wanted is "3_100"
         if(question_num == "3_100"):
             #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-            answer = is_correct(float(print_and_input_questions(question_3_100()[0][0])),float(question_3_100()[0][1]))
+            answer = is_correct(float(print_and_input_questions(question_3_100()[0][0]),screen),float(question_3_100()[0][1]))
             #returns true or false based on whether the user is correct or not
             return answer
         #sees if the question that is wanted is "2_100"
         if(question_num == "2_100"):
             #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-            answer = is_correct(float(print_and_input_questions(question_2_100()[0][0])),float(question_2_100()[0][1]))
+            answer = is_correct(float(print_and_input_questions(question_2_100()[0][0]),screen),float(question_2_100()[0][1]))
             #returns true or false based on whether the user is correct or not
             return answer
         #sees if the question that is wanted is "1_100"
         if(question_num == "1_100"):
             #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-            answer = is_correct(float(print_and_input_questions(question_1_100()[0][0])),float(question_1_100()[0][1]))
+            answer = is_correct(float(print_and_input_questions(question_1_100()[0][0]),screen),float(question_1_100()[0][1]))
             #returns true or false based on whether the user is correct or not
             return answer
     
