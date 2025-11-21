@@ -1,4 +1,5 @@
 from BaseBlock import BaseBlock
+import BattleLoop
 
 
 class BlockEnemy(BaseBlock):
@@ -8,4 +9,8 @@ class BlockEnemy(BaseBlock):
         self.screen = screen
 
     def stepOnApproval(self):
+        return True
+    
+    def beforeSteppingOnCell(self):
+        print('reached!')
         BattleLoop.battles(self.screen)

@@ -7,9 +7,10 @@ import Damage
 import os
 
 level = 1
-
+screen = pygame.display.set_mode((800, 800))
   
 def battles (screen):
+  
   game = True
   #screen.fill((255, 255,255))
   #pygame.draw.rect(screen, (255, 0, 0), [0, 100, 200, 150], 1)

@@ -22,10 +22,11 @@ from Coor import Coor
 from GameGrid import GameGrid
 import BattleLoop
 import os
-import MusicPlayer
 import Damage
 import time
 import random
+
+from BlockEnemy import BlockEnemy
 
 
 pygame.init()
@@ -34,12 +35,7 @@ pygame.init()
 screen = pygame.display.set_mode((800, 800))
 # sets screen name
 pygame.display.set_caption("Pokemon Professor Wars")
-#Sets up the pygame music mixer class
-MusicPlayer.initilizeMusic()
-#Sets a volume for music that will be played
-MusicPlayer.setVolume(20)
-#Plays music for the main screen
-MusicPlayer.playMusic(3)
+
 typing = False
 start = False
 name = ""
@@ -47,7 +43,7 @@ nameRect = pygame.Rect(250, 500, 300, 50)
 
 # initializing map grid
 map_array_characters = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"]
-    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "e", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
@@ -79,7 +75,7 @@ left = False
 battle = False
 
 # initialize goose
-geese = BlockEmpty(Coor(50,50), "w")
+geese = BlockEnemy(Coor(50,50), "w", screen)
 gameGrid.setBlockScaling(geese)
 geeseTimer = 1
 currentTime = 0
@@ -116,23 +112,38 @@ def keyboardInput (event, up, down, right, left, battle):
 def movePlayer (up, down, right, left):
     currentX = player.getCoordinate().get_x_coor()
     currentY = player.getCoordinate().get_y_coor()
+    
+    
     if up and gameGrid.getBlockScaling(Coor(currentX, currentY-40)).stepOnApproval():
         currentCoor = player.getCoordinate()
+        
+        gameGrid.getBlockScaling(Coor(currentX, currentY-40)).beforeSteppingOnCell()
+        
         gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
         player.setCoordinate(Coor(currentX, currentY-40))
     if down and gameGrid.getBlockScaling(Coor(currentX, currentY+40)).stepOnApproval():
         currentCoor = player.getCoordinate()
+        
+        gameGrid.getBlockScaling(Coor(currentX, currentY+40)).beforeSteppingOnCell()
+        
         gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
         player.setCoordinate(Coor(currentX, currentY+40))
     if right and gameGrid.getBlockScaling(Coor(currentX+40, currentY)).stepOnApproval():
+        
         currentCoor = player.getCoordinate()
+        gameGrid.getBlockScaling(Coor(currentX+40, currentY)).beforeSteppingOnCell()
+        
+        
         gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
         player.setCoordinate(Coor(currentX+40, currentY))
     if left and gameGrid.getBlockScaling(Coor(currentX-40, currentY)).stepOnApproval():
         currentCoor = player.getCoordinate()
+        
+        gameGrid.getBlockScaling(Coor(currentX-40, currentY)).beforeSteppingOnCell()
+        
         gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
         player.setCoordinate(Coor(currentX-40, currentY))
@@ -214,7 +225,7 @@ while running:
         geeseTimer -= (time.perf_counter() - currentTime)
         currentTime = time.perf_counter()
         if geeseTimer < 0:
-            geeseTimer = 0.1
+            geeseTimer = 1
             move = int(random.random()*4)
             
             if move == 0 and gameGrid.getBlockScaling(Coor(geese.getCoordinate().get_x_coor(), geese.getCoordinate().get_y_coor()-40)).stepOnApproval():
@@ -247,8 +258,6 @@ while running:
                 geese.setCoordinate(Coor(currentX+40, currentY))
        
     else:
-        MusicPlayer.stopMusic()
-        MusicPlayer.playMusic(5)
         battle = drawBattleMap("lab")
         # draw battle player image
         
@@ -265,10 +274,6 @@ while running:
                 if event.key == pygame.K_RETURN:
                     typing = False
                     start = True
-                    #Stops music from playing
-                    MusicPlayer.stopMusic()
-                    #Begins new music track
-                    MusicPlayer.playMusic(4)
                 elif event.key == pygame.K_BACKSPACE:
                     name = name[0:-1]
                 elif len(name) < 12:
