@@ -199,7 +199,9 @@ while running:
     elif not battle:
         drawExploreMap()
         # draw rectangle at player's coor 
-        pygame.draw.rect(screen, (255, 255, 0), [player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50], 0)
+        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\University_Student.png"))
+        playerImage = pygame.transform.scale(playerImage, (40, 40))
+        screen.blit(playerImage, (player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50))
         # display name
         name_display = base_font.render(name, True, (0, 0, 0))
         screen.blit(name_display, (player.getCoordinate().get_x_coor()-name_display.get_width()//2+20, player.getCoordinate().get_y_coor()-40))
@@ -208,7 +210,7 @@ while running:
         screen.blit(gpa_display, (player.getCoordinate().get_x_coor()+5, player.getCoordinate().get_y_coor()-20))
         
         # draw and move geese
-        geeseImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
+        geeseImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\Goose.png"))
         geeseImage = pygame.transform.scale(geeseImage, (40, 40))
         screen.blit(geeseImage, (geese.getCoordinate().get_x_coor(), geese.getCoordinate().get_y_coor()))
         geeseTimer -= (time.perf_counter() - currentTime)
@@ -250,7 +252,6 @@ while running:
         MusicPlayer.stopMusic()
         MusicPlayer.playMusic(5)
         battle = drawBattleMap("lab")
-        # draw battle player image
         
     for event in pygame.event.get():
         # mouse input

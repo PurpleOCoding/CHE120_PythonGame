@@ -209,7 +209,7 @@ def print_and_input_questions(question, screen):
         pygame.draw.rect(screen, (255, 255, 255), answerRect, 0)
         
         # Draw player, tool, and enemy
-        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
+        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\University_Student.png"))
         playerImage = pygame.transform.scale(playerImage, (150, 300))
         screen.blit(playerImage, (75,500))
         
