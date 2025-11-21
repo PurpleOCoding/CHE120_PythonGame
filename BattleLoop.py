@@ -4,35 +4,31 @@ import pygame
 from pygame.locals import*
 import che120_questions
 import Damage
+import os
 
 level = 1
 
   
 def battles (screen):
+  game = True
   #screen.fill((255, 255,255))
   #pygame.draw.rect(screen, (255, 0, 0), [0, 100, 200, 150], 1)
   #pygame.draw.polygon(screen, (255, 0, 255), [[10,10], [190,100], [300, 300], [200, 0]], 5)
-  image = pygame.image.load("C:\\Users\\nmay0\\Downloads\\Old_School_Title_Page.jpg").convert()
+  image = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Old_Classroom_1.jpg").convert()
   image = pygame.transform.scale(image, (200, 200))
   screen.blit(image, (50, 50))
   
-  while(True):
+  while(game):
     screen.blit(image, (50, 50))
     global level
-    print("a")
-    did_they_win = che120_questions.question_results(str(level)+"_100", screen)
-    print(did_they_win,"R")
+    did_they_win = che120_questions.question_results("1_100", screen)
     game_answer = Damage.Damage_Target(did_they_win, level)
-    print(game_answer[0])
-    if(game_answer[0] == False and game_answer[1]):
-        print("no")
+    if(game_answer[0] == False):
+      if(game_answer[1]):
         level += 1
         screen.fill((255,255,255))
-        break
-    if(game_answer[0] == False and game_answer[1] == False):
-        print("yes")
-        break
-    
-      
+        game = False
+      else:
+        game = False
     
       
