@@ -7,6 +7,7 @@ import random
 import pygame
 import pandas as pd
 import os
+import Damage
 
 #assignes a the gloabal variubles to 0.0 so they can later be used to hold the random number used in the questions
 random_num_1_100 = 0.0
@@ -175,13 +176,34 @@ def print_and_input_questions(question, screen):
     done = False
     typing = True
     while not done:
+        # Background drawing
         background = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Old_Classroom_1.jpg").convert()
         background = pygame.transform.scale(background, (800, 800))
         screen.blit(background, (0, 0))
         pygame.draw.rect(screen, (255, 255, 255), answerRect, 0)
+        
+        # Draw player, tool, and enemy
+        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
+        playerImage = pygame.transform.scale(playerImage, (150, 300))
+        screen.blit(playerImage, (75,500))
+        
+        toolImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
+        toolImage = pygame.transform.scale(toolImage, (150, 150))
+        screen.blit(toolImage, (300,400))
+        
+        profImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
+        profImage = pygame.transform.scale(profImage, (150, 400))
+        screen.blit(profImage, (600,250))
+        
+        # display gpa and proffesor hp
+        stat_font = pygame.font.Font("freesansbold.ttf", 48)
+        gpa_display = stat_font.render(str(Damage.student_health()), True, (255, 0, 0))
+        screen.blit(gpa_display, (100, 450))
+        
+        profHP_display = stat_font.render(str(Damage.prof_health()), True, (255, 0, 0))
+        screen.blit(profHP_display, (625, 200))
+        
         for event in pygame.event.get():
-            pygame.draw.rect(screen, (0, 50, 20), answerRect, 0)
-            #text_surface = base_font.render((question+" Input answer here (with no units): "+answer), True, (255, 0, 0))
             n = 0
             for i in range(len(text)):
                 text_surface = base_font.render(text[i], True, (0, 0, 0))
@@ -282,7 +304,7 @@ def num_rand_answer(one,two):
     ["Convert "+question_num_4_100()+" (N*lbmf)/(nmol*GPa) \nto (mJ*kg)/(klbmol*atm)."],
     ["You have a can of 7Up, height is "+question_num_3_100()+" cm, \nand the height of the foam solution is 30.5 cm, the height of the soda \nin the can is the rest of the can, the soda's density \nis 1.026 (g)/(ml), the foam density is 0.5 (g)/(ml). \nWhat is the pressure in the can in Pa?"],
     ["Using two-point interpolation, find x for the y = 4.56 \n(2.34,"+str(question_num_2_100())+") to (18.43,34.56)"],
-    ["You have "+str(question_num_1_100())+" kg of NaOH,\n how much NaCl do you have, assuming NaOH is limiting in g? \nUsing the equation NaOH + HCl --> NaCl + H2O."]
+    ["You have "+str(question_num_1_100())+" kg of NaOH, how much NaCl do you have, assuming NaOH is limiting in g? \nUsing the equation NaOH + HCl --> NaCl + H2O."]
     ]
     return questions_and_answers[one][two]
 
