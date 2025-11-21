@@ -25,8 +25,7 @@ import os
 import Damage
 import time
 import random
-
-from BlockEnemy import BlockEnemy
+import che120_questions
 
 
 pygame.init()
@@ -43,7 +42,7 @@ nameRect = pygame.Rect(250, 500, 300, 50)
 
 # initializing map grid
 map_array_characters = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"]
-    , ["w", "e", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
@@ -74,8 +73,10 @@ right = False
 left = False
 battle = False
 
+freeze = False
+
 # initialize goose
-geese = BlockEnemy(Coor(50,50), "w", screen)
+geese = BlockEmpty(Coor(50,50), "w")
 gameGrid.setBlockScaling(geese)
 geeseTimer = 1
 currentTime = 0
@@ -106,44 +107,32 @@ def keyboardInput (event, up, down, right, left, battle):
     elif right:
         right = False
     if event.key == pygame.K_e:
-        battle = True
+        if(Damage.student_health() > 60 and BattleLoop.what_level() < 6):
+            battle = True
+    if event.key == pygame.K_g:
+        Damage.heal_student(che120_questions.Goose(screen))
     return up,down,right,left,battle
 
 def movePlayer (up, down, right, left):
     currentX = player.getCoordinate().get_x_coor()
     currentY = player.getCoordinate().get_y_coor()
-    
-    
     if up and gameGrid.getBlockScaling(Coor(currentX, currentY-40)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        
-        gameGrid.getBlockScaling(Coor(currentX, currentY-40)).beforeSteppingOnCell()
-        
         gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
         player.setCoordinate(Coor(currentX, currentY-40))
     if down and gameGrid.getBlockScaling(Coor(currentX, currentY+40)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        
-        gameGrid.getBlockScaling(Coor(currentX, currentY+40)).beforeSteppingOnCell()
-        
         gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
         player.setCoordinate(Coor(currentX, currentY+40))
     if right and gameGrid.getBlockScaling(Coor(currentX+40, currentY)).stepOnApproval():
-        
         currentCoor = player.getCoordinate()
-        gameGrid.getBlockScaling(Coor(currentX+40, currentY)).beforeSteppingOnCell()
-        
-        
         gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
         player.setCoordinate(Coor(currentX+40, currentY))
     if left and gameGrid.getBlockScaling(Coor(currentX-40, currentY)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        
-        gameGrid.getBlockScaling(Coor(currentX-40, currentY)).beforeSteppingOnCell()
-        
         gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
         player.setCoordinate(Coor(currentX-40, currentY))
@@ -171,6 +160,7 @@ def drawBattleMap (room):
        # screen.blit(background, (0, 0))
     BattleLoop.battles(screen)
     return False
+
 
 def reset():
     typing = False
@@ -207,12 +197,10 @@ while running:
             screen.blit(text_surface, (250, 510))
 
         screen.blit(title, textRect)
-    elif not battle:
+    elif not battle and not freeze:
         drawExploreMap()
         # draw rectangle at player's coor 
-        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\University_Student.png"))
-        playerImage = pygame.transform.scale(playerImage, (40, 40))
-        screen.blit(playerImage, (player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50))
+        pygame.draw.rect(screen, (255, 255, 0), [player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50], 0)
         # display name
         name_display = base_font.render(name, True, (0, 0, 0))
         screen.blit(name_display, (player.getCoordinate().get_x_coor()-name_display.get_width()//2+20, player.getCoordinate().get_y_coor()-40))
@@ -221,13 +209,13 @@ while running:
         screen.blit(gpa_display, (player.getCoordinate().get_x_coor()+5, player.getCoordinate().get_y_coor()-20))
         
         # draw and move geese
-        geeseImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\Goose.png"))
+        geeseImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
         geeseImage = pygame.transform.scale(geeseImage, (40, 40))
         screen.blit(geeseImage, (geese.getCoordinate().get_x_coor(), geese.getCoordinate().get_y_coor()))
         geeseTimer -= (time.perf_counter() - currentTime)
         currentTime = time.perf_counter()
         if geeseTimer < 0:
-            geeseTimer = 1
+            geeseTimer = 0.1
             move = int(random.random()*4)
             
             if move == 0 and gameGrid.getBlockScaling(Coor(geese.getCoordinate().get_x_coor(), geese.getCoordinate().get_y_coor()-40)).stepOnApproval():
@@ -259,8 +247,9 @@ while running:
                 gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
                 geese.setCoordinate(Coor(currentX+40, currentY))
        
-    else:
+    elif not freeze:
         battle = drawBattleMap("lab")
+        # draw battle player image
         
     for event in pygame.event.get():
         # mouse input

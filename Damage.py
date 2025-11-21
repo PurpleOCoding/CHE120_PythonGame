@@ -8,14 +8,7 @@ Created on Mon Nov  6 13:30:30 2025
 import random
 #Whatever name is sent
 #from BattleLoop import Level
-heal = False
 def Damage_Target(Answer, level):
-    global heal
-    if(heal):
-        if(Enemy.iq < 100):
-            Enemy.iq = 100
-            Enemy.iq += 45*(level-1)
-            heal = False
     print("aaaaaaa")
     if Answer:
         dmg_roll = random.randrange(Student.low_range, Student.high_range)
@@ -36,20 +29,33 @@ def Damage_Target(Answer, level):
 
     #if student has won
     if Enemy.iq <= 60:
-        heal = True
+        heal_enemy(level)
         print("E dead")
-        Student.iq = 100
         return(False, True)
     #if enemy has won
     elif Student.iq <= 60:
+        heal_enemy(level)
         print("s dead")
-        Student.iq = 100
         return(False, False)
     #otherwise continue battle loop
     else:
         print("NA")
         return(True, None)
     
+def heal_student(heal):
+    if(heal):
+        if(Student.iq <= 90):
+            Student.iq += 10
+        if(Student.iq > 90):
+            Student.iq = 100
+    return Student.iq
+    
+def heal_enemy(level):
+    if(Enemy.iq < 100):
+        Enemy.iq = 100
+        Enemy.iq += 45*(level)
+        heal = False
+
 def student_health():
     return Student.iq
 
