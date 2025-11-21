@@ -176,6 +176,32 @@ def print_and_input_questions(question, screen):
     done = False
     typing = True
     while not done:
+        # MC Questions
+        qRect = pygame.Rect(0, 0, 800, 100)
+        a1Rect = pygame.Rect(0, 150, 800, 100)
+        a2Rect = pygame.Rect(0, 300, 800, 100)
+        a3Rect = pygame.Rect(0, 450, 800, 100)
+        a4Rect = pygame.Rect(0, 600, 800, 100)
+        
+        qText = base_font.render("temp", True, (0, 0, 0))
+        a1Text = base_font.render("temp", True, (0, 0, 0))
+        a2Text = base_font.render("temp", True, (0, 0, 0))
+        a3Text = base_font.render("temp", True, (0, 0, 0))
+        a4Text = base_font.render("temp", True, (0, 0, 0))
+        
+        #pygame.draw.rect(screen, (255, 255, 255), qRect)
+        #pygame.draw.rect(screen, (255, 255, 255), a1Rect)
+        #pygame.draw.rect(screen, (255, 255, 255), a2Rect)
+        #pygame.draw.rect(screen, (255, 255, 255), a3Rect)
+        #pygame.draw.rect(screen, (255, 255, 255), a4Rect)
+        
+        #screen.blit(qText, (0, 0))
+        #screen.blit(a1Text, (0, 150))
+        #screen.blit(a2Text, (0, 300))
+        #screen.blit(a3Text, (0, 450))
+        #screen.blit(a4Text, (0, 600))
+        
+        
         # Background drawing
         background = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Old_Classroom_1.jpg").convert()
         background = pygame.transform.scale(background, (800, 800))
@@ -187,7 +213,7 @@ def print_and_input_questions(question, screen):
         playerImage = pygame.transform.scale(playerImage, (150, 300))
         screen.blit(playerImage, (75,500))
         
-        toolImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
+        toolImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\Toool.png"))
         toolImage = pygame.transform.scale(toolImage, (150, 150))
         screen.blit(toolImage, (300,400))
         
@@ -216,6 +242,14 @@ def print_and_input_questions(question, screen):
                 if answerRect.collidepoint(event.pos):
                     typing = True
                     print("god")
+                #elif a1Rect.collidepoint(event.pos):
+                    #True
+                #elif a2Rect.collidepoint(event.pos):
+                    #True
+                #elif a3Rect.collidepoint(event.pos):
+                    #True
+                #elif a4Rect.collidepoint(event.pos):
+                    #True
                 else:
                     typing = False
             # keyboard input
@@ -230,29 +264,29 @@ def print_and_input_questions(question, screen):
                     elif event.key == pygame.K_BACKSPACE:
                         answer = answer[0:-1]
                     elif event.key == pygame.K_0 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "0"
                     elif event.key == pygame.K_1 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "1"
                     elif event.key == pygame.K_2 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "2"
                     elif event.key == pygame.K_3 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "3"
                     elif event.key == pygame.K_4 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "4"
                     elif event.key == pygame.K_5 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "5"
                     elif event.key == pygame.K_6 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "6"
                     elif event.key == pygame.K_7 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "7"
                     elif event.key == pygame.K_8 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "8"
                     elif event.key == pygame.K_9 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "9"
                     elif event.key == pygame.K_PERIOD and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "."
                     elif event.key == pygame.K_KP_MINUS and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
-                        answer += event.unicode
+                        answer += "-"
                     # updates a screen display
             pygame.display.update()
             if event.type == pygame.QUIT:
