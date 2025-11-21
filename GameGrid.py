@@ -1,7 +1,12 @@
 from BaseBlock import BaseBlock
 from BlockEmpty import BlockEmpty
 from BlockWall import BlockWall
+from BlockEnemy import BlockEnemy
 from Coor import Coor
+
+from BattleLoop import screen
+
+import pygame
 
 
 class GameGrid:
@@ -21,6 +26,9 @@ class GameGrid:
 
         elif blockId == "-":
             block = BlockEmpty(coor,blockId)
+            
+        elif blockId == "e":
+            block = BlockEnemy(coor, blockId, screen)
 
         self.setBlock(block)
 
