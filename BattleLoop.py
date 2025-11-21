@@ -9,7 +9,6 @@ level = 1
 
   
 def battles (screen):
-  game = True
   #screen.fill((255, 255,255))
   #pygame.draw.rect(screen, (255, 0, 0), [0, 100, 200, 150], 1)
   #pygame.draw.polygon(screen, (255, 0, 255), [[10,10], [190,100], [300, 300], [200, 0]], 5)
@@ -17,18 +16,23 @@ def battles (screen):
   image = pygame.transform.scale(image, (200, 200))
   screen.blit(image, (50, 50))
   
-  while(game):
+  while(True):
     screen.blit(image, (50, 50))
     global level
     print("a")
     did_they_win = che120_questions.question_results(str(level)+"_100", screen)
-    print(did_they_win)
+    print(did_they_win,"R")
     game_answer = Damage.Damage_Target(did_they_win, level)
-    if(game_answer[0] == False):
-      if(game_answer[1]):
+    print(game_answer[0])
+    if(game_answer[0] == False and game_answer[1]):
+        print("no")
         level += 1
         screen.fill((255,255,255))
-        game = False
+        break
+    if(game_answer[0] == False and game_answer[1] == False):
+        print("yes")
+        break
+    
       
     
       

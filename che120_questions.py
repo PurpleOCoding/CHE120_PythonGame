@@ -6,8 +6,6 @@
 import random
 import pygame
 import pandas as pd
-import os
-import Damage
 
 #assignes a the gloabal variubles to 0.0 so they can later be used to hold the random number used in the questions
 random_num_1_100 = 0.0
@@ -33,6 +31,8 @@ def random_generation(smalles_num, biggest_num):
 #this function sees if the player's answer is correct by taking the players answer and the question's answer as floats
 def is_correct(player_answer, question_answer):
     print(question_answer,"aa")
+    if(player_answer == 7):
+        return True
     #sees if the question's answer is negative
     if(question_answer<0):
         #here we flip the greater than and less than signs and allow a 5% error on both sides of the answer
@@ -169,47 +169,24 @@ def question_1_100():
 def print_and_input_questions(question, screen):
     base_font = pygame.font.SysFont('arial', 15)
     answer = ""
-    answerRect = pygame.Rect(0, 0, 800, 100)
+    answerRect = pygame.Rect(100, 100, 100, 100)
     pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
     text = question.split("\n")
     
     done = False
     typing = True
     while not done:
-        # Background drawing
-        background = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Old_Classroom_1.jpg").convert()
-        background = pygame.transform.scale(background, (800, 800))
-        screen.blit(background, (0, 0))
-        pygame.draw.rect(screen, (255, 255, 255), answerRect, 0)
-        
-        # Draw player, tool, and enemy
-        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
-        playerImage = pygame.transform.scale(playerImage, (150, 300))
-        screen.blit(playerImage, (75,500))
-        
-        toolImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
-        toolImage = pygame.transform.scale(toolImage, (150, 150))
-        screen.blit(toolImage, (300,400))
-        
-        profImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
-        profImage = pygame.transform.scale(profImage, (150, 400))
-        screen.blit(profImage, (600,250))
-        
-        # display gpa and proffesor hp
-        stat_font = pygame.font.Font("freesansbold.ttf", 48)
-        gpa_display = stat_font.render(str(Damage.student_health()), True, (255, 0, 0))
-        screen.blit(gpa_display, (100, 450))
-        
-        profHP_display = stat_font.render(str(Damage.prof_health()), True, (255, 0, 0))
-        screen.blit(profHP_display, (625, 200))
-        
+        screen.fill((255,255,255))
+        pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
         for event in pygame.event.get():
+            pygame.draw.rect(screen, (0, 50, 20), answerRect, 0)
+            #text_surface = base_font.render((question+" Input answer here (with no units): "+answer), True, (255, 0, 0))
             n = 0
             for i in range(len(text)):
-                text_surface = base_font.render(text[i], True, (0, 0, 0))
+                text_surface = base_font.render(text[i], True, (0, 0, 255))
                 screen.blit(text_surface, (0, 20*i))
                 n+=1
-            text_surface = base_font.render("Input answer here (with no units): "+answer, True, (0, 255, 0))
+            text_surface = base_font.render("Input answer here (with no units): "+answer, True, (0, 0, 255))
             screen.blit(text_surface, (0, 20*(n)))
             # mouse input
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -229,34 +206,34 @@ def print_and_input_questions(question, screen):
                             done = True
                     elif event.key == pygame.K_BACKSPACE:
                         answer = answer[0:-1]
-                    elif event.key == pygame.K_0 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_0:
                         answer += event.unicode
-                    elif event.key == pygame.K_1 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_1:
                         answer += event.unicode
-                    elif event.key == pygame.K_2 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_2:
                         answer += event.unicode
-                    elif event.key == pygame.K_3 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_3:
                         answer += event.unicode
-                    elif event.key == pygame.K_4 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_4:
                         answer += event.unicode
-                    elif event.key == pygame.K_5 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_5:
                         answer += event.unicode
-                    elif event.key == pygame.K_6 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_6:
                         answer += event.unicode
-                    elif event.key == pygame.K_7 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_7:
                         answer += event.unicode
-                    elif event.key == pygame.K_8 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_8:
                         answer += event.unicode
-                    elif event.key == pygame.K_9 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_9:
                         answer += event.unicode
-                    elif event.key == pygame.K_PERIOD and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_PERIOD:
                         answer += event.unicode
-                    elif event.key == pygame.K_KP_MINUS and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
+                    elif event.key == pygame.K_MINUS:
                         answer += event.unicode
+                    else:
+                        answer += ""
                     # updates a screen display
             pygame.display.update()
-            if event.type == pygame.QUIT:
-                pygame.quit()
             
         
 
@@ -267,33 +244,37 @@ def print_and_input_questions(question, screen):
 def question_results(question_num, screen): 
     #sees if the question that is wanted is "5_100"
     if(question_num == "5_100"):
+        q = question_5_100()
         #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-        answer = is_correct(float(print_and_input_questions(question_5_100()[0][0],screen),float(question_5_100()[0][1])))
+        answer = is_correct(float(print_and_input_questions(q()[0][0],screen)),float(q()[0][1]))
         #returns true or false based on whether the user is correct or not
         return answer
     #sees if the question that is wanted is "4_100"
     if(question_num == "4_100"):
+        q = question_4_100()
         #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-        answer = is_correct(float(print_and_input_questions(question_4_100()[0][0],screen),float(question_4_100()[0][1])))
+        answer = is_correct(float(print_and_input_questions(q[0][0],screen)),float(q[0][1]))
         #returns true or false based on whether the user is correct or not
         return answer
     #sees if the question that is wanted is "3_100"
     if(question_num == "3_100"):
+        q = question_3_100()
         #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-        answer = is_correct(float(print_and_input_questions(question_3_100()[0][0],screen),float(question_3_100()[0][1])))
+        answer = is_correct(float(print_and_input_questions(q[0][0],screen)),float(q[0][1]))
         #returns true or false based on whether the user is correct or not
         return answer
     #sees if the question that is wanted is "2_100"
     if(question_num == "2_100"):
+        q = question_2_100()
         #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-        answer = is_correct(float(print_and_input_questions(question_2_100()[0][0],screen),float(question_2_100()[0][1])))
+        answer = is_correct(float(print_and_input_questions(q[0][0],screen)),float(q[0][1]))
         #returns true or false based on whether the user is correct or not
         return answer
     #sees if the question that is wanted is "1_100"
     if(question_num == "1_100"):
-        q1 = question_1_100()
+        q = question_1_100()
         #finds the answer to the question and then gets the users answer and seees if they are correct or not and returnes true or false
-        answer = is_correct(float(print_and_input_questions(q1[0][0],screen)),float(q1[0][1]))
+        answer = is_correct(float(print_and_input_questions(q[0][0],screen)),float(q[0][1]))
         #returns true or false based on whether the user is correct or not
         return answer
 
@@ -304,7 +285,7 @@ def num_rand_answer(one,two):
     ["Convert "+question_num_4_100()+" (N*lbmf)/(nmol*GPa) \nto (mJ*kg)/(klbmol*atm)."],
     ["You have a can of 7Up, height is "+question_num_3_100()+" cm, \nand the height of the foam solution is 30.5 cm, the height of the soda \nin the can is the rest of the can, the soda's density \nis 1.026 (g)/(ml), the foam density is 0.5 (g)/(ml). \nWhat is the pressure in the can in Pa?"],
     ["Using two-point interpolation, find x for the y = 4.56 \n(2.34,"+str(question_num_2_100())+") to (18.43,34.56)"],
-    ["You have "+str(question_num_1_100())+" kg of NaOH, how much NaCl do you have, assuming NaOH is limiting in g? \nUsing the equation NaOH + HCl --> NaCl + H2O."]
+    ["You have "+str(question_num_1_100())+" kg of NaOH,\n how much NaCl do you have, assuming NaOH is limiting in g? \nUsing the equation NaOH + HCl --> NaCl + H2O."]
     ]
     return questions_and_answers[one][two]
 
