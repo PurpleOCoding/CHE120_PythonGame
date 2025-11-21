@@ -22,6 +22,7 @@ from Coor import Coor
 from GameGrid import GameGrid
 import BattleLoop
 import os
+import MusicPlayer
 import Damage
 import time
 import random
@@ -33,7 +34,12 @@ pygame.init()
 screen = pygame.display.set_mode((800, 800))
 # sets screen name
 pygame.display.set_caption("Pokemon Professor Wars")
-
+#Sets up the pygame music mixer class
+MusicPlayer.initilizeMusic()
+#Sets a volume for music that will be played
+MusicPlayer.setVolume(20)
+#Plays music for the main screen
+MusicPlayer.playMusic(3)
 typing = False
 start = False
 name = ""
@@ -241,6 +247,8 @@ while running:
                 geese.setCoordinate(Coor(currentX+40, currentY))
        
     else:
+        MusicPlayer.stopMusic()
+        MusicPlayer.playMusic(5)
         battle = drawBattleMap("lab")
         # draw battle player image
         
@@ -257,6 +265,10 @@ while running:
                 if event.key == pygame.K_RETURN:
                     typing = False
                     start = True
+                    #Stops music from playing
+                    MusicPlayer.stopMusic()
+                    #Begins new music track
+                    MusicPlayer.playMusic(4)
                 elif event.key == pygame.K_BACKSPACE:
                     name = name[0:-1]
                 elif len(name) < 12:
