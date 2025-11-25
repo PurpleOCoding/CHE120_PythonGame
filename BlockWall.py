@@ -1,6 +1,4 @@
 from BaseBlock import BaseBlock
-import BattleLoop
-import pygame
 
 
 class BlockWall(BaseBlock):
@@ -9,8 +7,6 @@ class BlockWall(BaseBlock):
         super().__init__(coor,blockId)
 
     def stepOnApproval(self):
-        screen = pygame.display.set_mode((800, 800))
-        BattleLoop.battles(screen)
         return False
 
 

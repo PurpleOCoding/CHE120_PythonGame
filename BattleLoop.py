@@ -22,14 +22,28 @@ def battles (screen):
   while(game):
     screen.blit(image, (50, 50))
     global level
-    did_they_win = che120_questions.question_results("1_100", screen)
+    print(level)
+    did_they_win = che120_questions.question_results(str(level)+"_100", screen)
     game_answer = Damage.Damage_Target(did_they_win, level)
+    print(game_answer[0], "333333")
     if(game_answer[0] == False):
-      if(game_answer[1]):
+      if(game_answer[1] == True):
+        print(game_answer[1], "3334333")
+        print("fkjenrlognergjm;perwingloewn345454342")
         level += 1
+        print(level,"   levels")
+        Damage.heal_enemy(level)
         screen.fill((255,255,255))
         game = False
-      else:
+      elif(game_answer[1] == False):
+        Damage.heal_enemy(level)
         game = False
+def what_level():
+    return level
+def reset():
+    global level
+    level = 1
+    print(level,"   levels")
+      
     
       

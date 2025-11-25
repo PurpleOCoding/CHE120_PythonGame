@@ -20,10 +20,9 @@ class BaseBlock:
 
     def stepOnApproval(self):
         return True
-    
+
     def beforeSteppingOnCell(self):
         return None
-    
 
     def afterSteppingOnCell(self):
         return None

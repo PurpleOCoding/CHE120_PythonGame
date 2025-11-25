@@ -2,11 +2,8 @@ from BaseBlock import BaseBlock
 from BlockEmpty import BlockEmpty
 from BlockWall import BlockWall
 from BlockEnemy import BlockEnemy
-from Coor import Coor
-
 from BattleLoop import screen
-
-import pygame
+from Coor import Coor
 
 
 class GameGrid:
@@ -27,7 +24,7 @@ class GameGrid:
         elif blockId == "-":
             block = BlockEmpty(coor,blockId)
             
-        elif blockId == "e":
+        elif blockId == 'e':
             block = BlockEnemy(coor, blockId, screen)
 
         self.setBlock(block)
@@ -63,6 +60,13 @@ class GameGrid:
                 coor = Coor(x,y)
                 blockId = board[x][y]
                 self.createBlock(blockId,coor)
+                
+                
+
+        for numRows in range(16):
+            for numCols in range(16):
+                print(self.blocks[numCols][numRows].getId(),end="")
+            print("\n")
                 #print(coor,end ="")
             #print("\n")
 

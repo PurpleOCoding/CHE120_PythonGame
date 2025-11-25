@@ -1,5 +1,6 @@
 from BaseBlock import BaseBlock
 import BattleLoop
+import Damage
 
 
 class BlockEnemy(BaseBlock):
@@ -13,4 +14,5 @@ class BlockEnemy(BaseBlock):
     
     def beforeSteppingOnCell(self):
         print('reached!')
-        BattleLoop.battles(self.screen)
+        if(Damage.student_health() > 60 and BattleLoop.what_level() < 6):
+            BattleLoop.battles(self.screen)
