@@ -18,6 +18,7 @@ import pygame
 from pygame.locals import*
 from BlockEmpty import BlockEmpty
 from BlockWall import BlockWall
+from BlockGoose import BlockGoose
 from Coor import Coor
 from GameGrid import GameGrid
 import BattleLoop
@@ -26,6 +27,7 @@ import Damage
 import time
 import random
 import che120_questions
+import MusicPlayer
 
 
 pygame.init()
@@ -35,6 +37,13 @@ screen = pygame.display.set_mode((800, 800))
 # sets screen name
 pygame.display.set_caption("Pokemon Professor Wars")
 
+#Sets up the pygame music mixer class
+MusicPlayer.initilizeMusic()
+#Sets a volume for music that will be played
+MusicPlayer.setVolume(20)
+#Plays music for the main screen
+MusicPlayer.playMusic(4)
+
 typing = False
 start = False
 name = ""
@@ -42,14 +51,14 @@ nameRect = pygame.Rect(250, 500, 300, 50)
 
 # initializing map grid
 map_array_characters = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"]
-    , ["w", "e", "e", "e", "e", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "e", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
-    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
-    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
-    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "e", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
@@ -76,7 +85,7 @@ battle = False
 freeze = False
 
 # initialize goose
-geese = BlockEmpty(Coor(50,50), "w")
+geese = BlockGoose(Coor(600,600), "g",screen)
 gameGrid.setBlockScaling(geese)
 geeseTimer = 1
 currentTime = 0
@@ -119,11 +128,21 @@ def movePlayer (up, down, right, left):
     currentX = player.getCoordinate().get_x_coor()
     currentY = player.getCoordinate().get_y_coor()
     print(currentX//40,currentY//40)
+    
+    if(up):
+        gameGrid.getBlockScaling(Coor(currentX, currentY-40)).beforeSteppingOnCell()
+    elif(down):
+        gameGrid.getBlockScaling(Coor(currentX, currentY+40)).beforeSteppingOnCell()
+    elif(right):
+        gameGrid.getBlockScaling(Coor(currentX+40, currentY)).beforeSteppingOnCell()
+    elif(left):
+        gameGrid.getBlockScaling(Coor(currentX-40, currentY)).beforeSteppingOnCell()
+    
+    
     if up and gameGrid.getBlockScaling(Coor(currentX, currentY-40)).stepOnApproval():
         currentCoor = player.getCoordinate()
         
         print(gameGrid.getBlockScaling(Coor(currentX, currentY-40)).getId())
-        gameGrid.getBlockScaling(Coor(currentX, currentY-40)).beforeSteppingOnCell()
         
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
@@ -131,8 +150,7 @@ def movePlayer (up, down, right, left):
     if down and gameGrid.getBlockScaling(Coor(currentX, currentY+40)).stepOnApproval():
         currentCoor = player.getCoordinate()
         
-        print(gameGrid.getBlockScaling(Coor(currentX, currentY+40)).getId())
-        gameGrid.getBlockScaling(Coor(currentX, currentY+40)).beforeSteppingOnCell()        
+        print(gameGrid.getBlockScaling(Coor(currentX, currentY+40)).getId())      
         
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
@@ -141,7 +159,6 @@ def movePlayer (up, down, right, left):
         currentCoor = player.getCoordinate()
         
         print(gameGrid.getBlockScaling(Coor(currentX+40, currentY)).getId())
-        gameGrid.getBlockScaling(Coor(currentX+40, currentY)).beforeSteppingOnCell()
         
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
@@ -150,7 +167,6 @@ def movePlayer (up, down, right, left):
         currentCoor = player.getCoordinate()
         
         print(gameGrid.getBlockScaling(Coor(currentX-40, currentY)).getId())
-        gameGrid.getBlockScaling(Coor(currentX-40, currentY)).beforeSteppingOnCell()
         
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
@@ -258,8 +274,10 @@ while running:
         screen.blit(title, textRect)
     elif not battle and not freeze:
         drawExploreMap()
-        # draw rectangle at player's coor 
-        pygame.draw.rect(screen, (255, 255, 0), [player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50], 0)
+        # draw player at player's coor 
+        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\University_Student.png"))
+        playerImage = pygame.transform.scale(playerImage, (40, 40))
+        screen.blit(playerImage, (player.getCoordinate().get_x_coor(), player.getCoordinate().get_y_coor(), 50, 50))
         # display name
         name_display = base_font.render(name, True, (0, 0, 0))
         screen.blit(name_display, (player.getCoordinate().get_x_coor()-name_display.get_width()//2+20, player.getCoordinate().get_y_coor()-40))
@@ -267,50 +285,68 @@ while running:
         gpa_display = base_font.render(str(Damage.student_health()), True, (255, 0, 0))
         screen.blit(gpa_display, (player.getCoordinate().get_x_coor()+5, player.getCoordinate().get_y_coor()-20))
         
+        # draw enemies/professors
+        for i in range(gameGrid.numRows):
+            for j in range(gameGrid.numCols):
+                if gameGrid.blocks[j][i].getId() == 'e':
+                    profImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\milad-kamkar.png"))
+                    profImage = pygame.transform.scale(profImage, (40, 40))
+                    screen.blit(profImage, (j*40,i*40))
+        
         # draw and move geese
-        geeseImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
-        geeseImage = pygame.transform.scale(geeseImage, (40, 40))
+        geeseImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\Goose.png"))
+        geeseImage = pygame.transform.scale(geeseImage, (60, 60))
         screen.blit(geeseImage, (geese.getCoordinate().get_x_coor(), geese.getCoordinate().get_y_coor()))
         geeseTimer -= (time.perf_counter() - currentTime)
         currentTime = time.perf_counter()
 
         
         if geeseTimer < 0:
-            geeseTimer = 0.1
+            geeseTimer = 0.2
             move = int(random.random()*4)
+            
+            if (player.getCoordinate().get_x_coor() == geese.getCoordinate().get_x_coor() and player.getCoordinate().get_y_coor() == geese.getCoordinate().get_y_coor()):
+                if(Damage.student_health() != 100):
+                    Damage.heal_student(che120_questions.Goose(screen))     
             
             if move == 0 and gameGrid.getBlockScaling(Coor(geese.getCoordinate().get_x_coor(), geese.getCoordinate().get_y_coor()-40)).stepOnApproval():
                 currentCoor = geese.getCoordinate()
                 currentX = currentCoor.get_x_coor()
                 currentY = currentCoor.get_y_coor()
                 gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
-                gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
+                
                 geese.setCoordinate(Coor(currentX, currentY-40))
+                gameGrid.setBlockScaling(geese)
             elif move == 1 and gameGrid.getBlockScaling(Coor(geese.getCoordinate().get_x_coor(), geese.getCoordinate().get_y_coor()+40)).stepOnApproval():
                 currentCoor = geese.getCoordinate()
                 currentX = currentCoor.get_x_coor()
                 currentY = currentCoor.get_y_coor()
                 gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
-                gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
+                
                 geese.setCoordinate(Coor(currentX, currentY+40))
+                gameGrid.setBlockScaling(geese)
+
             elif move == 2 and gameGrid.getBlockScaling(Coor(geese.getCoordinate().get_x_coor()-40, geese.getCoordinate().get_y_coor())).stepOnApproval():
                 currentCoor = geese.getCoordinate()
                 currentX = currentCoor.get_x_coor()
                 currentY = currentCoor.get_y_coor()
                 gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
-                gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
+                
                 geese.setCoordinate(Coor(currentX-40, currentY))
+                gameGrid.setBlockScaling(geese)
             elif gameGrid.getBlockScaling(Coor(geese.getCoordinate().get_x_coor()+40, geese.getCoordinate().get_y_coor())).stepOnApproval():
                 currentCoor = geese.getCoordinate()
                 currentX = currentCoor.get_x_coor()
                 currentY = currentCoor.get_y_coor()
                 gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
-                gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
+                
                 geese.setCoordinate(Coor(currentX+40, currentY))
+                gameGrid.setBlockScaling(geese)
        
     elif not freeze:
+        MusicPlayer.stopMusic()
+        MusicPlayer.playMusic(5)
         battle = drawBattleMap("lab")
-        # draw battle player image
         
     for event in pygame.event.get():
         # mouse input
@@ -325,6 +361,8 @@ while running:
                 if event.key == pygame.K_RETURN:
                     typing = False
                     start = True
+                    MusicPlayer.stopMusic()
+                    MusicPlayer.playMusic(4)
                 elif event.key == pygame.K_BACKSPACE:
                     name = name[0:-1]
                 elif len(name) < 12:

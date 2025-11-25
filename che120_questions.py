@@ -200,7 +200,7 @@ def print_and_input_questions(question, screen):
         pygame.draw.rect(screen, (255, 255, 255), answerRect, 0)
         
         # Draw player, tool, and enemy
-        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
+        playerImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\University_Student.png"))
         playerImage = pygame.transform.scale(playerImage, (150, 300))
         screen.blit(playerImage, (75,500))
         
@@ -208,9 +208,9 @@ def print_and_input_questions(question, screen):
         toolImage = pygame.transform.scale(toolImage, (150, 150))
         screen.blit(toolImage, (300,400))
         
-        profImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\generated-image-1.png"))
-        profImage = pygame.transform.scale(profImage, (150, 400))
-        screen.blit(profImage, (600,250))
+        profImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\milad-kamkar.png"))
+        profImage = pygame.transform.scale(profImage, (350, 400))
+        screen.blit(profImage, (500,250))
         
         # display gpa and proffesor hp
         stat_font = pygame.font.Font("freesansbold.ttf", 48)

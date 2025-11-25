@@ -10,9 +10,8 @@ class BlockEnemy(BaseBlock):
         self.screen = screen
 
     def stepOnApproval(self):
-        return True
+        return False
     
     def beforeSteppingOnCell(self):
-        print('reached!')
-        if(Damage.student_health() > 60 and BattleLoop.what_level() < 6):
+        if Damage.student_health() > 60:
             BattleLoop.battles(self.screen)
