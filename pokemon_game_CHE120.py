@@ -42,14 +42,14 @@ nameRect = pygame.Rect(250, 500, 300, 50)
 
 # initializing map grid
 map_array_characters = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"]
+    , ["w", "e", "e", "e", "e", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
-    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
-    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
+    , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "e", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
     , ["w", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "w"]
@@ -82,7 +82,8 @@ geeseTimer = 1
 currentTime = 0
 
 
-
+def restart():
+    running = True
 # handles keyboard input
 def keyboardInput (event, up, down, right, left, battle):
     if event.key == pygame.K_w: # K_x where x is any lower case letter or special key e.g. F7, 3 
@@ -110,31 +111,49 @@ def keyboardInput (event, up, down, right, left, battle):
         if(Damage.student_health() > 60 and BattleLoop.what_level() < 6):
             battle = True
     if event.key == pygame.K_g:
-        Damage.heal_student(che120_questions.Goose(screen))
+        if(Damage.student_health() != 100):
+            Damage.heal_student(che120_questions.Goose(screen))
     return up,down,right,left,battle
 
 def movePlayer (up, down, right, left):
     currentX = player.getCoordinate().get_x_coor()
     currentY = player.getCoordinate().get_y_coor()
+    print(currentX//40,currentY//40)
     if up and gameGrid.getBlockScaling(Coor(currentX, currentY-40)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
-        gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
+        
+        print(gameGrid.getBlockScaling(Coor(currentX, currentY-40)).getId())
+        gameGrid.getBlockScaling(Coor(currentX, currentY-40)).beforeSteppingOnCell()
+        
+        #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
+        #gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
         player.setCoordinate(Coor(currentX, currentY-40))
     if down and gameGrid.getBlockScaling(Coor(currentX, currentY+40)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
-        gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
+        
+        print(gameGrid.getBlockScaling(Coor(currentX, currentY+40)).getId())
+        gameGrid.getBlockScaling(Coor(currentX, currentY+40)).beforeSteppingOnCell()        
+        
+        #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
+        #gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
         player.setCoordinate(Coor(currentX, currentY+40))
     if right and gameGrid.getBlockScaling(Coor(currentX+40, currentY)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
-        gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
+        
+        print(gameGrid.getBlockScaling(Coor(currentX+40, currentY)).getId())
+        gameGrid.getBlockScaling(Coor(currentX+40, currentY)).beforeSteppingOnCell()
+        
+        #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
+        #gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
         player.setCoordinate(Coor(currentX+40, currentY))
     if left and gameGrid.getBlockScaling(Coor(currentX-40, currentY)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
-        gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
+        
+        print(gameGrid.getBlockScaling(Coor(currentX-40, currentY)).getId())
+        gameGrid.getBlockScaling(Coor(currentX-40, currentY)).beforeSteppingOnCell()
+        
+        #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
+        #gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
         player.setCoordinate(Coor(currentX-40, currentY))
     return 
 
@@ -163,14 +182,54 @@ def drawBattleMap (room):
 
 
 def reset():
+    global typing
+    global start
+    global name
+    global nameRect
     typing = False
     start = False
     name = ""
     nameRect = pygame.Rect(250, 500, 300, 50)
+    heal = 100 - Damage.student_health()
+    Damage.heal_student(heal)
+    BattleLoop.reset()
+    Damage.heals_enemy
+    
+    
+def end(screen):
+    if(Damage.student_health() <= 0):
+        base_font = pygame.font.SysFont('arial', 15)
+        text_surface = base_font.render("You Lose your gpa is zero game is over", True, (255, 0, 0))
+        endRect = pygame.Rect(0, 0, 800, 800)
+        pygame.draw.rect(screen, (255, 255, 255), endRect, 0)
+        screen.blit(text_surface, (0, 0))
+        pygame.display.update()
+        done = False
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if endRect.collidepoint(event.pos):
+                        done = True
+        reset()
+    if(BattleLoop.what_level() == 6):
+        base_font = pygame.font.SysFont('arial', 15)
+        text_surface = base_font.render("You won your gpa is "+str(Damage.student_health())+" you graduate.", True, (255, 0, 0))
+        endRect = pygame.Rect(0, 0, 800, 800)
+        pygame.draw.rect(screen, (255, 255, 255), endRect, 0)
+        screen.blit(text_surface, (0, 0))
+        pygame.display.update()
+        done = False
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if endRect.collidepoint(event.pos):
+                        done = True
+        reset()
 
 # Main game loop
 running = True
 while running:
+    end(screen)
     screen.fill((255,255,255))
     if not start:
         # main menu screen
@@ -214,6 +273,8 @@ while running:
         screen.blit(geeseImage, (geese.getCoordinate().get_x_coor(), geese.getCoordinate().get_y_coor()))
         geeseTimer -= (time.perf_counter() - currentTime)
         currentTime = time.perf_counter()
+
+        
         if geeseTimer < 0:
             geeseTimer = 0.1
             move = int(random.random()*4)
@@ -278,6 +339,8 @@ while running:
     
     if event.type == pygame.QUIT:
         running = False
+
+    
 
 
 # triggers pygame.QUIT event and closes pygame
