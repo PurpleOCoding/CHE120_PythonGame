@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # In[364]:
-
+#all the imports
 import random
 import pygame
 import pandas as pd
@@ -168,27 +168,33 @@ def question_1_100():
     ]
     #returns the new list with the question and answer based on the randomly generated number
     return questions_1_100_answer
+#this is the pause function
 def pause():
+    #gets the time
     current_time = time.time()
-    print(type(str(current_time)))
+    #while true
     while True:
+        #the code checks if the current time - starting time is greater than 5
         if(time.time()-current_time>5):
-            print("yes")
+            #breaks and ends the code
             break
-    #while True:
-       # print("aaaaaaabbbbb")
-        #if(current_time-time.time() == 5):
-           # return False
 #This function thakes in question which is the question you want to ask the user the function prints the question trys to get a users inpu and breaks it the give a working input otherwise it prints "Pleas input number's only" and loops back it returns the answer from the user
 def print_and_input_questions(question, screen):
+    #sets font
     base_font = pygame.font.SysFont('arial', 15)
+    #sets answer to blank
     answer = ""
+    #makes a rectangle
     answerRect = pygame.Rect(0, 0, 800, 150)
+    #draws to the rectangle and adds the colision
     pygame.draw.rect(screen, (0, 100, 20), answerRect, 0)
+    #splits over the \n
     text = question.split("\n")
     
+    #sets booleans to false or true
     done = False
     typing = True
+    #sets a loop while done is Flase
     while not done:
         
         
@@ -204,10 +210,12 @@ def print_and_input_questions(question, screen):
         playerImage = pygame.transform.scale(playerImage, (150, 300))
         screen.blit(playerImage, (75,500))
         
+        #drawing tool
         toolImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\Toool.png"))
         toolImage = pygame.transform.scale(toolImage, (150, 150))
         screen.blit(toolImage, (300,400))
         
+        #drawing prof
         profImage = pygame.image.load(str(os.getcwd() + "\\Game Images\\milad-kamkar.png"))
         profImage = pygame.transform.scale(profImage, (350, 400))
         screen.blit(profImage, (500,250))
@@ -217,41 +225,49 @@ def print_and_input_questions(question, screen):
         gpa_display = stat_font.render(str(Damage.student_health()), True, (255, 0, 0))
         screen.blit(gpa_display, (100, 450))
         
+        #displaying health of prof
         profHP_display = stat_font.render(str(Damage.prof_health()), True, (255, 0, 0))
         screen.blit(profHP_display, (625, 200))
         
+        #runs a loop for the amount of times event in pygame.event.get()
         for event in pygame.event.get():
+            #sets n to 0
             n = 0
+            #runs a for loop for the length of text
             for i in range(len(text)):
+                #assinges the variuble to text at i
                 text_surface = base_font.render(text[i], True, (0, 0, 0))
+                #adds the variubles text to the screen at a place 20*i
                 screen.blit(text_surface, (0, 20*i))
+                #adds one to n
                 n+=1
+            #sets a new variuble with new text
             text_surface = base_font.render("Input answer here (with no units): "+answer, True, (0, 0, 255))
+            #adds the variuble to the screen at a place 20*n
             screen.blit(text_surface, (0, 20*(n)))
             # mouse input
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #sees if the mouse colieds with the chosen point
                 if answerRect.collidepoint(event.pos):
+                    #sets typing to true
                     typing = True
-                    print("god")
-                #elif a1Rect.collidepoint(event.pos):
-                    #True
-                #elif a2Rect.collidepoint(event.pos):
-                    #True
-                #elif a3Rect.collidepoint(event.pos):
-                    #True
-                #elif a4Rect.collidepoint(event.pos):
-                    #True
+                #else it gose here
                 else:
+                    #sets typing to false
                     typing = False
             # keyboard input
             if event.type == pygame.KEYDOWN: # KEYDOWN is for pressed KEYUP is for releasing a key (can be combined for holding of keys using booleans)
+                #sees if they are typing
                 if typing:
-                    #pygame.draw.rect(screen, (0, 0, 0), answerRect, 0)
-                    
+                    #sees if enter was hit
                     if event.key == pygame.K_RETURN:
+                        #sees if the length of the answer is greater than one
                         if (len(answer) > 0):
+                            #sets typing to false
                             typing = False
+                            #sets done to false
                             done = True
+                    #this is where each key that is allowed to be used is assinged and what it will do
                     elif event.key == pygame.K_BACKSPACE:
                         answer = answer[0:-1]
                     elif event.key == pygame.K_0 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
@@ -278,9 +294,11 @@ def print_and_input_questions(question, screen):
                         answer += "."
                     elif event.key == pygame.K_KP_MINUS and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += "-"
-                    # updates a screen display
+            # updates a screen display
             pygame.display.update()
+            #sees if event type is equal to pygame.quit
             if event.type == pygame.QUIT:
+                #quits pygame
                 pygame.quit()
             
         
@@ -288,61 +306,82 @@ def print_and_input_questions(question, screen):
     #returns the answer the user gave
     return answer
 
-
+#this is a betting function that intakes screen
 def bet(screen):
-    print("a")
+    #sets the variuble answer
     answer = ""
+    #sets a rectangle
     answerRect = pygame.Rect(0, 0, 800, 100)
+    #draws the rectangle to the screen and adds the collision
     pygame.draw.rect(screen, (255, 255, 255), answerRect, 0)
+    #creats the base fount
     base_font = pygame.font.SysFont('arial', 15)
+    #sets the booleans to false and true
     done = False
     typing = True
+    #sets a while false loop
     while not done:
+        #sets a loop for event in pygame.event.get()
         for event in pygame.event.get():
+            #sets a variuble to a string
             text_surface = base_font.render("Input the amount of gpa you are willing to bet: "+answer, True, (255, 0, 0))
+            #adds the text to the screen
             screen.blit(text_surface, (0, 20))
-            #pygame.display.update()
             # mouse input
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #sees if the mose colieds with the specified point
                 if answerRect.collidepoint(event.pos):
+                    #sets typing to true
                     typing = True
-                    print("god")
-                #elif a1Rect.collidepoint(event.pos):
-                    #True
-                #elif a2Rect.collidepoint(event.pos):
-                    #True
-                #elif a3Rect.collidepoint(event.pos):
-                    #True
-                #elif a4Rect.collidepoint(event.pos):
-                    #True
+                #else it gose here
                 else:
-                    
+                    #sets typing to false
                     typing = False
             # keyboard input
             if event.type == pygame.KEYDOWN: # KEYDOWN is for pressed KEYUP is for releasing a key (can be combined for holding of keys using booleans)
+                #sees if typing is true
                 if typing:
-                    #pygame.draw.rect(screen, (0, 0, 0), answerRect, 0)
-                    
+                    #sees if enter has been hit
                     if event.key == pygame.K_RETURN:
+                        #sets go to false
                         go = False
+                        #sees if the int of answer is equal to 0 or int answer is greater then the students health
                         if(int(answer) == 0 or int(answer) > Damage.student_health()):
+                            #assinges a variuble to the text
                             text_surface = base_font.render("Input the amount of gpa you are willing to bet: "+answer+" bet must be under your gpa and greater than 0, you are lossing 10 gpa", True, (255, 0, 0))
+                            #adds the text to the screen
                             screen.blit(text_surface, (0, 20))
+                            #reupdates the screen
                             pygame.display.update()
+                            #takes away 10 from the students health by 10
                             Damage.hurt_student(10)
+                            #calls the pause function
                             pause()
+                            #returns 0
                             return 0
+                        #else if 100 subtract the students health and sees if it less than the int of the answer
                         elif((100 - Damage.student_health()) < int(answer)):
+                            #assinges the text to a variuble
                             text_surface = base_font.render("Input the amount of gpa you are willing to bet: "+answer+" bet must be equal to or under " +str((100 - Damage.student_health())), True, (255, 0, 0))
+                            #adds the text to the screen
                             screen.blit(text_surface, (0, 20))
+                            #updates the screen display
                             pygame.display.update()
+                            #calles the pause function
                             pause()
+                            #sets go to true
                             go = True
+                        #else gose here
                         else:
+                            #if go is false this runs
                             if(not go):
+                                #the student gets damaged byt the int of answer
                                 Damage.hurt_student(int(answer))
+                                #sets typing to false
                                 typing = False
+                                #sets done to true
                                 done = True
+                    #sets and assinges the keys that can be used and they inputs
                     elif event.key == pygame.K_BACKSPACE:
                         answer = answer[0:-1]
                     elif event.key == pygame.K_0 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
@@ -365,31 +404,45 @@ def bet(screen):
                         answer += "8"
                     elif event.key == pygame.K_9 and not event.key == pygame.K_LSHIFT and not event.key == pygame.K_RSHIFT:
                         answer += "9"
-                    # updates a screen display
+            # updates a screen display
             pygame.display.update()
+            #draws the rectangle to the screen and adds the collision
             pygame.draw.rect(screen, (255, 255, 255), answerRect, 0)
-            if event.type == pygame.QUIT:
+            #sees if event.type is equal to pygame.quit
+            if(event.type == pygame.QUIT):
+                #quits pygame
                 pygame.quit()
+    #returns answer
     return answer
 
+#creats the Gooses questions takes in the screen
 def Goose(screen):
+    #calls the global variuble bet
     global bet
+    #sets bet to what the bet function returns
     bets = bet(screen)
+    #sees if bets equal to 0
     if(bets == 0):
+        #returns 0
         return 0
-    print(bets)
+    #assinges the font
     base_font = pygame.font.SysFont('arial', 15)
+    #sest the variuble num_num to 0
     num_num = 0
+    #assinges 5 listswith numbers and booleans
     num1 = [(1,True),(2,False),(3,False),(4,False)]
     num2 = [(3, False), (1, True), (4, False), (2, False)]
     num3 = [(4, False), (2, False), (1, True), (3, False)]
     num4 = [(2, False), (4, False), (3, False), (1, True)]
     num5 = [(3, False), (2, False), (1, True), (4, False)]
 
+    #sets a list1 of lists
     list1 = [num1,num2,num3,num4,num5]
     
+    #sets name to the random choice from the list1 list
     name = random.choice(list1)
     
+    #sets a list called questions too the question and gives the answer and the wrong answers
     questions = [
     ("Who created the Obligation of the Engineer?", 
      "Rudyard Kipling","Archimedes","Isambard Kingdom Brunel","Nikola Tesla"),
@@ -421,92 +474,148 @@ def Goose(screen):
     ("When did the Quebec bridge collapse?",
      "1916","1932","1922","1937")
 ]
+    #gets a random number
     rand_num = round(random.uniform(0,9))
+    #gets the question
     question = questions[rand_num][0]
+    #gets one of the answeers randomly asinged
     one = questions[rand_num][name[0][0]]
+    #gets one of the answeers randomly asinged
     two = questions[rand_num][name[1][0]]
+    #gets one of the answeers randomly asinged
     three = questions[rand_num][name[2][0]]
+    #gets one of the answeers randomly asinged
     four = questions[rand_num][name[3][0]]
+    #loops for i in the range of 4
     for i in range(4):
+        #sees if name at i and 1 is true
         if(name[i][1]):
+            #sets num_num to i
             num_num = i
+    #sets the boolean done to false
     done = False
+    #sets the variuble to a blank string
     mcAnswer = ""
-    # MC Questions
+    #creats a rectangle
     qRect = pygame.Rect(0, 0, 800, 100)
     a1Rect = pygame.Rect(0, 150, 800, 100)
     a2Rect = pygame.Rect(0, 300, 800, 100)
     a3Rect = pygame.Rect(0, 450, 800, 100)
     a4Rect = pygame.Rect(0, 600, 800, 100)
-    
+    #sets the variuble to the text
     qText = base_font.render(question, True, (0, 0, 0))
     a1Text = base_font.render(one, True, (0, 0, 0))
     a2Text = base_font.render(two, True, (0, 0, 0))
     a3Text = base_font.render(three, True, (0, 0, 0))
     a4Text = base_font.render(four, True, (0, 0, 0))
     
+    #draws the rectangle to the screen and adds the collision    
     pygame.draw.rect(screen, (255, 255, 255), qRect)
     pygame.draw.rect(screen, (255, 255, 255), a1Rect)
     pygame.draw.rect(screen, (255, 255, 255), a2Rect)
     pygame.draw.rect(screen, (255, 255, 255), a3Rect)
     pygame.draw.rect(screen, (255, 255, 255), a4Rect)
     
+    #adds the text to the screen
     screen.blit(qText, (0, 0))
     screen.blit(a1Text, (0, 150))
     screen.blit(a2Text, (0, 300))
     screen.blit(a3Text, (0, 450))
     screen.blit(a4Text, (0, 600))
+    #updates the screen
     pygame.display.update()
+    #sets a while false loop
     while not done:
+        #loops for event in pygame.event
         for event in pygame.event.get():
             # mouse input
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #sees if the mose colieds in the excpected spot
                 if a1Rect.collidepoint(event.pos):
+                    #sets the variuble to one
                     mcAnswer = one
+                    #sets done to true
                     done = True
+                #sees if the mose colieds in the excpected spot
                 elif a2Rect.collidepoint(event.pos):
+                    #sets the variuble to two
                     mcAnswer = two
+                    #sets done to true
                     done = True
+                 #sees if the mose colieds in the excpected spot
                 elif a3Rect.collidepoint(event.pos):
+                    #sets the variuble to three
                     mcAnswer = three
+                    #sets done to true
                     done = True
+                 #sees if the mose colieds in the excpected spot
                 elif a4Rect.collidepoint(event.pos):
+                    #sets the variuble to four
                     mcAnswer = four
+                    #sets done to true
                     done = True
                     
-        
+                    
+        #sees if mcAnswer equals the correct answer
         if(mcAnswer == questions[rand_num][name[num_num][1]]):
+            #draws a rectangle
             a5Rect = pygame.Rect(0, 0, 800, 800)
+            #assinges the answer to the variuble qu
             qu = questions[rand_num][name[num_num][1]] 
-            qu += " was the answer, good job your IQ went up by "+str(bets)
+            #adds that this was the answer and that the gpa went up by the amount they bet
+            qu += " was the answer, good job your gpa went up by "+str(bets)
+            #assinges the tesxt to tha variuble
             a5Text = base_font.render(qu, True, (0, 0, 0))
+            #draws the rectangle to the screen and adds the collision 
             pygame.draw.rect(screen, (255, 255, 255), a5Rect)
+            #adds the text to the screen at a specified spot
             screen.blit(a5Text, (240, 20))
+            #updates the screen
             pygame.display.update()
+            #sets done2 to false
             done2 = False
+            #dose a while false loop
             while not done2:
+                #sets a for loop fo event in pygame,event
                 for event in pygame.event.get():
                     # mouse input
                     if event.type == pygame.MOUSEBUTTONDOWN:
+                        #sees if the mouse colieds with the spot
                         if a5Rect.collidepoint(event.pos):
+                            #sets done2 to true
                             done2 = True
+            #returns the int of bets * 2
             return int(bets)*2
 
+        #sees if mcAnswer is not equal to the answer and the lneght of mcAnswer is greater than 0
         if(mcAnswer != questions[rand_num][name[num_num][1]] and len(mcAnswer)>0):
+            #draws a rectangle
             a5Rect = pygame.Rect(0, 0, 800, 800)
+            #gets the answer assinges it to qu
             qu = questions[rand_num][name[num_num][1]] 
+            #adds they where wrong to bad
             qu += " was the answer, to bad you where wrong"
+            #assinges the tesxt to tha variuble
             a5Text = base_font.render(qu, True, (0, 0, 0))
+            #draws the rectangle to the screen and adds the collision 
             pygame.draw.rect(screen, (255, 255, 255), a5Rect)
+            #adds the text to the screen at a specified spot
             screen.blit(a5Text, (300, 20))
+            #updates the screen
             pygame.display.update()
+            #sets done2 to false
             done2 = False
+            #dose a while false loop
             while not done2:
+                #sets a for loop fo event in pygame,event
                 for event in pygame.event.get():
                     # mouse input
                     if event.type == pygame.MOUSEBUTTONDOWN:
+                        #sees if the mouse colieds with the spot
                         if a5Rect.collidepoint(event.pos):
+                            #sets done2 to true
                             done2 = True
+            #returns 0
             return 0
 
 #this function in takes the question number calls all the functions and list to get the question creat the random number and creats the soulotion gets the usres answer and checks if the user is correct retuning a boolean
@@ -543,6 +652,7 @@ def question_results(question_num, screen):
         #returns true or false based on whether the user is correct or not
         return answer
 
+#function that gets the question takes in two numbers to get the question
 def num_rand_answer(one,two):
     #this is the list of questions that also has a changing number within it
     questions_and_answers = [
@@ -552,19 +662,9 @@ def num_rand_answer(one,two):
     ["Using two-point interpolation, find x for the y = 4.56 \n(2.34,"+str(question_num_2_100())+") to (18.43,34.56)"],
     ["You have "+str(question_num_1_100())+" kg of NaOH, how much NaCl do you have, assuming NaOH is limiting in g? Using the equation NaOH + HCl --> NaCl + H2O."]
     ]
+    #returns the question
     return questions_and_answers[one][two]
 
-
-#print(()[0][1])
-#print(question_results("1_100"))
-#print(question_2_100()[0][1])
-#print(question_results("2_100"))
-#print(question_3_100()[0][1])
-#print(question_results("3_100"))
-#print(question_4_100()[0][1])
-#print(question_results("4_100"))
-#print(question_5_100()[0][1])
-#print(question_results("5_100"))
 
 
 
