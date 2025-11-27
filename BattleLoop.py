@@ -1,49 +1,62 @@
-#https://use.ai/chat/3ca9740e-1186-4274-af7a-32c996c7ad05
-#Create a university big lecture hall with no one inside
+#this is all the imports
 import pygame
 from pygame.locals import*
 import che120_questions
 import Damage
 import os
-
+#sets level to 1
 level = 1
+#sets the screen to diplay the at sertian size
 screen = pygame.display.set_mode((800, 800))
   
+#this is the balttel loop that is called to fight
 def battles (screen):
-  
+  #sets game to true
   game = True
-  #screen.fill((255, 255,255))
-  #pygame.draw.rect(screen, (255, 0, 0), [0, 100, 200, 150], 1)
-  #pygame.draw.polygon(screen, (255, 0, 255), [[10,10], [190,100], [300, 300], [200, 0]], 5)
+  #sets the image for the fight
   image = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Old_Classroom_1.jpg").convert()
+  #scales the image
   image = pygame.transform.scale(image, (200, 200))
+  #adds the image to the screen
   screen.blit(image, (50, 50))
-  
+  #while the game is true
   while(game):
+      #adds the image to the screen
     screen.blit(image, (50, 50))
+    #calles the global variuble level
     global level
-    print(level)
+    #calls the function question_results giving it the level and the screen and sees if they win or loos and assinges that to a variuble
     did_they_win = che120_questions.question_results(str(level)+"_100", screen)
+    #adds damage to the loser of the battel and sends level
     game_answer = Damage.Damage_Target(did_they_win, level)
-    print(game_answer[0], "333333")
+    #sees if the game answer at 0 is false
     if(game_answer[0] == False):
+    #sees if game answer at 1 is true
       if(game_answer[1] == True):
-        print(game_answer[1], "3334333")
-        print("fkjenrlognergjm;perwingloewn345454342")
+        #adds one to level
         level += 1
-        print(level,"   levels")
+        #healls the enemy to the level that the game is at
         Damage.heal_enemy(level)
+        #fills the screen with a color
         screen.fill((255,255,255))
+        #sets game to false
         game = False
+    #else if game answer at 1 equals false
       elif(game_answer[1] == False):
+        #damages the enemy based on the level
         Damage.heal_enemy(level)
+        #sets game to false
         game = False
+#seest what the level is
 def what_level():
+    #returns the level
     return level
+#this is the rest function
 def reset():
+    #calles the global variuble level
     global level
+    #sets level to 1
     level = 1
-    print(level,"   levels")
       
     
       
