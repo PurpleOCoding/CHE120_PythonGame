@@ -348,7 +348,7 @@ def bet(screen):
                         #sees if the int of answer is equal to 0 or int answer is greater then the students health
                         if(int(answer) == 0 or int(answer) > Damage.student_health()):
                             #assinges a variuble to the text
-                            text_surface = base_font.render("Input the amount of gpa you are willing to bet: "+answer+" bet must be under your gpa and greater than 0, you are lossing 10 gpa", True, (255, 0, 0))
+                            text_surface = base_font.render("Input the amount of gpa you are willing to bet: "+answer+". Bet must be under your gpa and greater than 0, you are lossing 10 gpa.", True, (255, 0, 0))
                             #adds the text to the screen
                             screen.blit(text_surface, (0, 20))
                             #reupdates the screen
@@ -362,7 +362,7 @@ def bet(screen):
                         #else if 100 subtract the students health and sees if it less than the int of the answer
                         elif((100 - Damage.student_health()) < int(answer)):
                             #assinges the text to a variuble
-                            text_surface = base_font.render("Input the amount of gpa you are willing to bet: "+answer+" bet must be equal to or under " +str((100 - Damage.student_health())), True, (255, 0, 0))
+                            text_surface = base_font.render("Input the amount of gpa you are willing to bet: "+answer+". Bet must be equal to or under " +str((100 - Damage.student_health()))+".", True, (255, 0, 0))
                             #adds the text to the screen
                             screen.blit(text_surface, (0, 20))
                             #updates the screen display
@@ -447,11 +447,11 @@ def Goose(screen):
     ("Who created the Obligation of the Engineer?", 
      "Rudyard Kipling","Archimedes","Isambard Kingdom Brunel","Nikola Tesla"),
 
-    ("Who holds the iron ring ceremony?",
+    ("Who holds the Iron Ring ceremony?",
      "Corporation of the Seven Wardens","The Seven Wardens","Society of the Seven Wardens","Bill"),
 
-    ("What is not a police 71 violation?",
-     "theft of tool","Threatening behaviour","Self plagiarism", "Plagiarism"),
+    ("What is not a policy 71 violation?",
+     "Theft of Tool","Threatening behaviour","Self plagiarism", "Plagiarism"),
 
     ("What does PEO stand for?",
      "Professional Engineers Ontario","Professors of Engineering Ontario","Please Engineer Ontario","Pro Engineers Ontario"),
@@ -460,7 +460,7 @@ def Goose(screen):
      "1937","1922","1943","1932"),
 
     ("What is the physical identification worn by engineers who have taken the oath?",
-     "Iorn ring","Iorn pin","Depression","Nothing"),
+     "Iorn Ring","Iorn pin","Depression","Nothing"),
 
     ("Is Tron on top?",
      "No","Maby","Could be", "Yes"),
@@ -468,7 +468,7 @@ def Goose(screen):
     ("Is Chem on top?",
      "Yes","Maby","Could be", "Never"),
 
-    ("How long is the Engineering undergraduate at Waterloo?",
+    ("How long is the Engineering undergraduate degree at Waterloo?",
      "5 years","2 years","6 years","4 years"),
 
     ("When did the Quebec bridge collapse?",
@@ -563,7 +563,7 @@ def Goose(screen):
             #assinges the answer to the variuble qu
             qu = questions[rand_num][name[num_num][1]] 
             #adds that this was the answer and that the gpa went up by the amount they bet
-            qu += " was the answer, good job your gpa went up by "+str(bets)
+            qu += " was the answer, good job your gpa went up by "+str(bets)+"."
             #assinges the tesxt to tha variuble
             a5Text = base_font.render(qu, True, (0, 0, 0))
             #draws the rectangle to the screen and adds the collision 
@@ -594,7 +594,7 @@ def Goose(screen):
             #gets the answer assinges it to qu
             qu = questions[rand_num][name[num_num][1]] 
             #adds they where wrong to bad
-            qu += " was the answer, to bad you where wrong"
+            qu += " was the answer, too bad you where wrong."
             #assinges the tesxt to tha variuble
             a5Text = base_font.render(qu, True, (0, 0, 0))
             #draws the rectangle to the screen and adds the collision 
@@ -656,11 +656,11 @@ def question_results(question_num, screen):
 def num_rand_answer(one,two):
     #this is the list of questions that also has a changing number within it
     questions_and_answers = [
-    ["In this process, there is a feed m2(flow rate) going into a unit process and a second feed m1(flow rate) mixing into the first feed. In this first feed, \nthere are two exit streams, one of which is m4(flow rate), the other m5(flow rate). m5(flow rate) goes to a new point where the stream \nbreaks into two streams, one being m6(flow rate), the other m7(flow rate). m7(flow rate) goes to a new unit process, which also has a second input, \nwhich is m8(flow rate), all leading to an output m9(flow rate). There is no accumulation. m1(flow rate) = 42.5 kg/h, m2(flow rate) = 4.56 g/s, \nm3(flow rate) = ?, m4(flow rate) = "+question_num_5_100()+" mg/s, m5(flow rate) = ?, m6(flow rate) = ?, m7(flow rate) = ?, m8(flow rate) = 0.3 g/min, \nm9(flow rate) = this flow rate is 50% of m5 flow rate, What is the flow rate of m7(flow rate) in g/s"],
-    ["Convert "+question_num_4_100()+" (N*lbmf)/(nmol*GPa) \nto (mJ*kg)/(klbmol*atm)."],
-    ["You have a can of 7Up, height is "+question_num_3_100()+" cm, and the height of the foam solution is 30.5 cm, the height of the soda \nin the can is the rest of the can, the soda's density is 1.026 (g)/(ml), the foam density is 0.5 (g)/(ml). \nWhat is the pressure in the can in Pa?"],
-    ["Using two-point interpolation, find x for the y = 4.56 \n(2.34,"+str(question_num_2_100())+") to (18.43,34.56)"],
-    ["You have "+str(question_num_1_100())+" kg of NaOH, how much NaCl do you have, assuming NaOH is limiting in g? Using the equation NaOH + HCl --> NaCl + H2O."]
+    ["In this process, there is a feed m2(flow rate) going into a unit process and a second feed m1(flow rate) mixing into the first feed. In this first feed, \nthere are two exit streams, one of which is m4(flow rate), the other m5(flow rate). m5(flow rate) goes to a splitting point where the stream \nbreaks into two streams, one being m6(flow rate), the other m7(flow rate). m7(flow rate) goes to a new unit process, which also has a second input, \nwhich is m8(flow rate), all leading to an output m9(flow rate). There is no accumulation. m1(flow rate) = 42.5 kg/h, m2(flow rate) = 4.56 g/s, \nm3(flow rate) = ?, m4(flow rate) = "+question_num_5_100()+" mg/s, m5(flow rate) = ?, m6(flow rate) = ?, m7(flow rate) = ?, m8(flow rate) = 0.3 g/min, \nm9(flow rate) = this flow rate is 50% of m5 flow rate, What is the flow rate of m7(flow rate) in g/s?"],
+    ["Convert "+question_num_4_100()+" (N*lbmf)/(nmol*GPa) \nto (mJ*kg)/(klbmol*atm)?"],
+    ["You have a can of 7Up, the height is "+question_num_3_100()+" cm, and the height of the foam solution is 30.5 cm, the height of the soda \nis the remander of the can's height. The soda's density is 1.026 (g)/(ml), the foam density is 0.5 (g)/(ml). \nWhat is the pressure in the can in Pa?"],
+    ["Using two-point interpolation, find x for the y = 4.56 \nusing the following points (2.34,"+str(question_num_2_100())+") to (18.43,34.56)?"],
+    ["You have "+str(question_num_1_100())+" kg of NaOH, how much NaCl do you have, assuming NaOH is limiting in g? Using the equation NaOH + HCl --> NaCl + H2O?"]
     ]
     #returns the question
     return questions_and_answers[one][two]
