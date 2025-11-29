@@ -142,15 +142,11 @@ def movePlayer (up, down, right, left):
     if up and gameGrid.getBlockScaling(Coor(currentX, currentY-40)).stepOnApproval():
         currentCoor = player.getCoordinate()
         
-        print(gameGrid.getBlockScaling(Coor(currentX, currentY-40)).getId())
-        
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
         player.setCoordinate(Coor(currentX, currentY-40))
     if down and gameGrid.getBlockScaling(Coor(currentX, currentY+40)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        
-        print(gameGrid.getBlockScaling(Coor(currentX, currentY+40)).getId())      
         
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
@@ -158,15 +154,11 @@ def movePlayer (up, down, right, left):
     if right and gameGrid.getBlockScaling(Coor(currentX+40, currentY)).stepOnApproval():
         currentCoor = player.getCoordinate()
         
-        print(gameGrid.getBlockScaling(Coor(currentX+40, currentY)).getId())
-        
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
         player.setCoordinate(Coor(currentX+40, currentY))
     if left and gameGrid.getBlockScaling(Coor(currentX-40, currentY)).stepOnApproval():
         currentCoor = player.getCoordinate()
-        
-        print(gameGrid.getBlockScaling(Coor(currentX-40, currentY)).getId())
         
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
@@ -383,3 +375,4 @@ while running:
 
 # triggers pygame.QUIT event and closes pygame
 pygame.quit()
+
