@@ -33,13 +33,3 @@ def fadeMusicOut(fadeAmount):
 def stopMusic():
     pygame.mixer.music.stop()
 
-
-if __name__ == "__main__":
-    initilizeMusic()
-    setVolume(20)
-    playMusic(3)
-    input()
-    fadeMusicOut(1000)
-    playMusic(2)
-    input()
-
