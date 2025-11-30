@@ -11,9 +11,11 @@ Created on Thu Nov  6 10:49:08 2025
 # Computer lab pokemon style
 # Old university grounds birds eye view
 # Old university
+# Casino run by geese
 
-# Main game file, runs drawing loop and updates player actions and screen
+# Main game file, runs drawing loop and updates player actions and screen, calls other modules to manage combat
 
+# module and class imports
 import pygame
 from pygame.locals import*
 from BlockEmpty import BlockEmpty
@@ -29,21 +31,24 @@ import random
 import che120_questions
 import MusicPlayer
 
-
+# initializes the pygame module
 pygame.init()
 
 # creates a screen element of specified dimensions
 screen = pygame.display.set_mode((800, 800))
 # sets screen name
-pygame.display.set_caption("Pokemon Professor Wars")
+pygame.display.set_caption("Professor Wars")
 
 #Sets up the pygame music mixer class
 MusicPlayer.initilizeMusic()
+
 #Sets a volume for music that will be played
 MusicPlayer.setVolume(20)
 #Plays music for the main screen
-MusicPlayer.playMusic(4)
+MusicPlayer.stopMusic()
+MusicPlayer.playMusic(5)
 
+# initializes some booleans and objects to do with getting user name at start
 typing = False
 start = False
 name = ""
@@ -90,7 +95,7 @@ gameGrid.setBlockScaling(geese)
 geeseTimer = 1
 currentTime = 0
 
-
+# prevents main while loop from stopping
 def restart():
     running = True
 # handles keyboard input
@@ -124,6 +129,7 @@ def keyboardInput (event, up, down, right, left, battle):
             Damage.heal_student(che120_questions.Goose(screen))
     return up,down,right,left,battle
 
+# moves the player based on current key inputs
 def movePlayer (up, down, right, left):
     currentX = player.getCoordinate().get_x_coor()
     currentY = player.getCoordinate().get_y_coor()
@@ -142,11 +148,15 @@ def movePlayer (up, down, right, left):
     if up and gameGrid.getBlockScaling(Coor(currentX, currentY-40)).stepOnApproval():
         currentCoor = player.getCoordinate()
         
+        print(gameGrid.getBlockScaling(Coor(currentX, currentY-40)).getId())
+        
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY-40), "w"))
         player.setCoordinate(Coor(currentX, currentY-40))
     if down and gameGrid.getBlockScaling(Coor(currentX, currentY+40)).stepOnApproval():
         currentCoor = player.getCoordinate()
+        
+        print(gameGrid.getBlockScaling(Coor(currentX, currentY+40)).getId())      
         
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX, currentY+40), "w"))
@@ -154,41 +164,35 @@ def movePlayer (up, down, right, left):
     if right and gameGrid.getBlockScaling(Coor(currentX+40, currentY)).stepOnApproval():
         currentCoor = player.getCoordinate()
         
+        print(gameGrid.getBlockScaling(Coor(currentX+40, currentY)).getId())
+        
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX+40, currentY), "w"))
         player.setCoordinate(Coor(currentX+40, currentY))
     if left and gameGrid.getBlockScaling(Coor(currentX-40, currentY)).stepOnApproval():
         currentCoor = player.getCoordinate()
         
+        print(gameGrid.getBlockScaling(Coor(currentX-40, currentY)).getId())
+        
         #gameGrid.setBlockScaling(BlockEmpty(currentCoor, "-"))
         #gameGrid.setBlockScaling(BlockWall(Coor(currentX-40, currentY), "w"))
         player.setCoordinate(Coor(currentX-40, currentY))
     return 
 
+# draws the background for exploring
 def drawExploreMap ():
     # background
     background = pygame.image.load(str(os.getcwd()) + "\\Game Images\\Explore_Background.jpg").convert()
     background = pygame.transform.scale(background, (800, 800))
     screen.blit(background, (0, 0))
-    # for char in characters:
-        #image = char.getImage()
-        #image = pygame.transform.scale(image, (50, 50)) # similar transformations exist for rotating, fliping about axis, etc
-        #screen.blit(image, (char.get_x_coordinate(), char.get_y_coordinate))
     return
 
-def drawBattleMap (room):
-    #if (room == "classroom"):
-     #   background = pygame.image.load("C:\\Users\\orech\\Documents\\CHE120\\Game Images\\Old_Classroom_1.jpg").convert()
-      #  background = pygame.transform.scale(background, (800, 800))
-       # screen.blit(background, (0, 0))
-    #elif room == "lab":
-     #   background = pygame.image.load("C:\\Users\\orech\\Documents\\CHE120\\Game Images\\Computer_Lab_Classroom_1.jpg").convert()
-      #  background = pygame.transform.scale(background, (800, 800))
-       # screen.blit(background, (0, 0))
+# starts battles
+def battleMap ():
     BattleLoop.battles(screen)
     return False
 
-
+# resets variables associated with starting the game to allow for a fresh start
 def reset():
     global typing
     global start
@@ -203,7 +207,7 @@ def reset():
     BattleLoop.reset()
     Damage.heals_enemy
     
-    
+# creates the appropriate end screen  
 def end(screen):
     if(Damage.student_health() <= 0):
         base_font = pygame.font.SysFont('arial', 15)
@@ -239,6 +243,7 @@ running = True
 while running:
     end(screen)
     screen.fill((255,255,255))
+    # handles start of game behaviour
     if not start:
         # main menu screen
 
@@ -249,7 +254,7 @@ while running:
 
         # title
         title_Font = pygame.font.Font("freesansbold.ttf", 60)
-        title = title_Font.render("Pokemon Professor Wars", True, "white", "blue")
+        title = title_Font.render("Professor Wars", True, "white", "blue")
         textRect = title.get_rect(center = (400, 400))
 
         # enter name and start when enter pressed
@@ -264,6 +269,7 @@ while running:
             screen.blit(text_surface, (250, 510))
 
         screen.blit(title, textRect)
+    # handles exploration behaviour
     elif not battle and not freeze:
         drawExploreMap()
         # draw player at player's coor 
@@ -334,11 +340,11 @@ while running:
                 
                 geese.setCoordinate(Coor(currentX+40, currentY))
                 gameGrid.setBlockScaling(geese)
-       
+    # background main game behaviour for when battles occur
     elif not freeze:
         MusicPlayer.stopMusic()
         MusicPlayer.playMusic(5)
-        battle = drawBattleMap("lab")
+        battle = battleMap()
         
     for event in pygame.event.get():
         # mouse input
@@ -354,7 +360,7 @@ while running:
                     typing = False
                     start = True
                     MusicPlayer.stopMusic()
-                    MusicPlayer.playMusic(4)
+                    MusicPlayer.playMusic(5)
                 elif event.key == pygame.K_BACKSPACE:
                     name = name[0:-1]
                 elif len(name) < 12:
@@ -367,6 +373,7 @@ while running:
     # updates a screen display
     pygame.display.update()
     
+    # handles closing of game window
     if event.type == pygame.QUIT:
         running = False
 
@@ -375,4 +382,3 @@ while running:
 
 # triggers pygame.QUIT event and closes pygame
 pygame.quit()
-
