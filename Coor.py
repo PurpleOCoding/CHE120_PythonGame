@@ -12,8 +12,8 @@ class Coor:
 
     def get_x_coor(self):
         """
-        -> number
-        return the current value for x.coor
+        Returns the x coordinate
+        () -> float or int
         """
         
         return self.x_coor
@@ -21,8 +21,8 @@ class Coor:
 
     def get_y_coor(self):
         """
-        -> number
-        return the current value for y.coor
+        Returns the y coordinate
+        () -> float or int
         """
         
         return self.y_coor
@@ -30,8 +30,8 @@ class Coor:
 
     def set_x_coor(self, new_x_value):
         """
-        number -> None
-        Takes the inputed number value and redefines x_coor to that new value
+        Sets the coordinate x to a new inputed value
+        int or float -> None
         """
         
         self.x_coor = new_x_value
@@ -40,8 +40,8 @@ class Coor:
 
     def set_y_coor(self,new_y_value):
         """
-        number -> None
-        Takes the inputed number value and redefines y_coor to that new value
+        Sets the coordinate y to a new inputed value
+        int or float -> None
         """
         
         self.y_coor = new_y_value
