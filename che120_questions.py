@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[364]:
 #all the imports
 import random
 import pygame
